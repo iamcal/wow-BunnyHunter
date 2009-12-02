@@ -1,0 +1,7 @@
+## Interface: 30200
+## Title : Parrot
+## Notes: Track rare pet grinds
+## Author: Cal Henderson
+## Dependencies: 
+## SavedVariablesPerCharacter: parrotDB
+Parrot.lua
