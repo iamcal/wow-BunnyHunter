@@ -1,7 +1,7 @@
 ## Interface: 30200
-## Title : Parrot
+## Title : Bunny Hunter
 ## Notes: Track rare pet grinds
 ## Author: Cal Henderson
 ## Dependencies: 
-## SavedVariablesPerCharacter: parrotDB
-Parrot.lua
+## SavedVariablesPerCharacter: BunnyHunterDB
+BunnyHunter.lua
