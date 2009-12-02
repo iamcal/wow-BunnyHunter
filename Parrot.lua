@@ -45,6 +45,8 @@ Parrot.trackKills["5465"] = {
 
 function Parrot.OnLoad()
 
+	--print("Parrot.OnLoad()");
+
 	for item, names in pairs(Parrot.trackKills) do
 
 		for name, junk in pairs(names) do
@@ -56,7 +58,7 @@ end
 
 function Parrot.OnReady()
 
-	--print("Parrot loaded!");
+	--print("Parrot.OnReady()");
 
 	_G.parrotDB = _G.parrotDB or {};
 	_G.parrotDB.kills = _G.parrotDB.kills or {};
@@ -176,7 +178,7 @@ function Parrot.ItemData(itemId)
 	};
 end
 
-function Parrot.DumpStatus()
+function Parrot.DumpStatus()w
 
 	for itemId, names in pairs(Parrot.trackKills) do
 
@@ -203,7 +205,7 @@ function Parrot.OnEvent(frame, event, ...)
 
 	if (event == 'ADDON_LOADED') then
 		local name = ...;
-		if name == '_Parrot' then
+		if name == 'Parrot' then
 			Parrot.OnReady();
 		end
 	end
@@ -291,20 +293,21 @@ function Parrot.OnLoot()
 end
 
 function Parrot.OnDragStart(frame)
-	frame:StartMoving();
-	frame.isMoving = true;
+	Parrot.UIFrame:StartMoving();
+	Parrot.UIFrame.isMoving = true;
+	GameTooltip:Hide()
 end
 
 function Parrot.OnDragStop(frame)
-	frame:StopMovingOrSizing();
-	frame.isMoving = false;
+	Parrot.UIFrame:StopMovingOrSizing();
+	Parrot.UIFrame.isMoving = false;
 end
 
 function Parrot.StartFrame()
 
 	Parrot.UIFrame = CreateFrame("Frame",nil,UIParent);
 	Parrot.UIFrame:SetFrameStrata("BACKGROUND")
-	Parrot.UIFrame:SetWidth(128)
+	Parrot.UIFrame:SetWidth(150)
 	Parrot.UIFrame:SetHeight(32)
 
 	Parrot.UIFrame.texture = Parrot.UIFrame:CreateTexture()
@@ -326,9 +329,6 @@ function Parrot.StartFrame()
 	Parrot.UIFrame:SetPoint(frameRef, frameX, frameY);
 
 	-- make it draggable
-	Parrot.UIFrame:SetScript("OnDragStart", Parrot.OnDragStart);
-	Parrot.UIFrame:SetScript("OnDragStop", Parrot.OnDragStop);
-	Parrot.UIFrame:RegisterForDrag("LeftButton");
 	Parrot.UIFrame:SetMovable(true);
 	Parrot.UIFrame:EnableMouse(true);
 
@@ -357,6 +357,15 @@ function Parrot.StartFrame()
 	Parrot.ProgressBar:SetStatusBarTexture([[Interface\Addons\Recount\Textures\statusbar\BantoBar]], "ARTWORK")
 	Parrot.ProgressBar:SetStatusBarColor(0, 1, 0)
 
+	Parrot.ProgressBar:EnableMouse(true); 
+	Parrot.ProgressBar:SetHitRectInsets(0, 0, 0, 0)
+	Parrot.ProgressBar:SetScript("OnEnter", Parrot.ShowTooltip);
+	Parrot.ProgressBar:SetScript("OnLeave", function() GameTooltip:Hide() end);
+	Parrot.ProgressBar:SetScript("OnDragStart", Parrot.OnDragStart);
+	Parrot.ProgressBar:SetScript("OnDragStop", Parrot.OnDragStop);
+	Parrot.ProgressBar:RegisterForDrag("LeftButton");
+
+
 	-- some text to go over it
 	Parrot.Label = Parrot.ProgressBar:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
 	Parrot.Label:SetPoint("LEFT", Parrot.ProgressBar, "LEFT", 2, 0)
@@ -364,6 +373,7 @@ function Parrot.StartFrame()
 	Parrot.Label:SetText("Test Text")
 	Parrot.Label:SetTextColor(1,1,1,1)
 	Parrot.SetFontSize(Parrot.Label, 10)
+
 
 	Parrot.UpdateFrame();
 
@@ -454,6 +464,64 @@ function Parrot.SetItem(itemId)
 	_G.parrotDB.opts.curItem = itemId;
 	Parrot.UpdateFrame();
 end
+
+function Parrot.ShowTooltip()
+
+	GameTooltip:SetOwner(Parrot.ProgressBar, "ANCHOR_BOTTOM");
+
+
+	local itemId = _G.parrotDB.opts.curItem;
+	local itemData = Parrot.ItemData(itemId);
+	local totalKills = Parrot.GetTotalKills(itemId);
+	local totalKillsSince = Parrot.GetTotalKillsSince(itemId);
+
+	local dropChance = Parrot.dropChances[itemId];
+	local invChance = 1 / dropChance
+	local totalChance = 100 * (1 - math.pow(1 - dropChance, totalKillsSince));
+
+	GameTooltip:SetText(itemData.itemLink)
+
+	GameTooltip:AddLine(" ")
+	GameTooltip:AddDoubleLine("Loots since last drop:", totalKillsSince, 1,1,1,1,1,1)
+	GameTooltip:AddDoubleLine("Drop chance:", " 1 in "..invChance, 1,1,1,1,1,1)
+	GameTooltip:AddDoubleLine("Chance so far:", string.format("%.1f", totalChance).."%", 1,1,1,1,1,1)
+	GameTooltip:AddLine(" ")
+	GameTooltip:AddDoubleLine("Total loots:", totalKills, 1,1,1,1,1,1)
+
+	if (Parrot.trackKills[itemId]) then
+		for name, junk in pairs(Parrot.trackKills[itemId]) do
+
+			GameTooltip:AddDoubleLine(name..":", (_G.parrotDB.kills[name] or 0), 1,1,1,1,1,1);
+		end
+	end
+
+	local lastLoot = 0;
+	local drop = 1;
+
+	if (_G.parrotDB.loots[itemId]) then
+		for _, loots in pairs(_G.parrotDB.loots[itemId]) do
+
+			local lootsThis = loots - lastLoot;
+			lastLoot = loots;
+			local thisChance = 100 * (1 - math.pow(1 - dropChance, lootsThis));
+
+			if (drop == 1) then
+				GameTooltip:AddLine(" ")
+			end
+
+			GameTooltip:AddDoubleLine("Drop "..drop, lootsThis.." loots / "..string.format("%.1f", thisChance).."%", 1,1,1,1,1,1);
+
+			drop = drop + 1;
+		end
+	end
+	
+
+	GameTooltip:ClearAllPoints()
+	GameTooltip:SetPoint("TOPLEFT", Parrot.ProgressBar, "BOTTOMLEFT"); 
+
+	GameTooltip:Show()
+end
+
 
 SLASH_PARROT1 = '/parrot';
 
