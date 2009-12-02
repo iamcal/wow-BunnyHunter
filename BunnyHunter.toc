@@ -2,6 +2,7 @@
 ## Title : Bunny Hunter
 ## Notes: Track rare pet grinds
 ## Author: Cal Henderson
+## Version: 1.0
 ## Dependencies: 
 ## SavedVariablesPerCharacter: BunnyHunterDB
 BunnyHunter.lua
