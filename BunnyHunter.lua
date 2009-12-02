@@ -389,19 +389,41 @@ function BH.OnLoot()
 		local numItems = GetNumLootItems()
 
 		for slotID = 1, numItems, 1 do
-			local itemLink = GetLootSlotLink(slotID);
-			local _, itemId = strsplit(":", itemLink);
 
-			--print("found item id "..itemId);
+			-- coins have a qty of 0
+			local _, _, qty = GetLootSlotInfo(slotID);
 
-			if (BH.trackKills[itemId]) then
+			if (qty > 0) then
 
-				--print("we care about that!!");
-				BH.FoundLoot(itemId);
+				local itemLink = GetLootSlotLink(slotID);
+				local _, itemId = strsplit(":", itemLink);
+
+				--print("found item id "..itemId);
+
+				if (BH.trackKills[itemId]) then
+
+					--print("we care about that!!");
+					BH.FoundLoot(itemId);
+				end
 			end
 		end
 
 		BH.UpdateFrame();
+end
+
+function BH.FormatPercent(p)
+
+	if (p == 0) then
+		return 0;
+	end
+
+	local x = string.format("%.1f", p)
+
+	if (x == "0.0" or x == "99.9") then x = string.format("%.2f", p) end;
+	if (x == "0.00" or x == "99.99") then x = string.format("%.3f", p) end;
+	if (x == "0.000" or x == "99.999") then x = string.format("%.4f", p) end;
+
+	return x;
 end
 
 function BH.OnDragStart(frame)
@@ -549,7 +571,7 @@ function BH.UpdateFrame()
 	local totalChance = 100 * (1 - math.pow(1 - dropChance, kills));
 
 	BH.ProgressBar:SetValue(totalChance)
-	BH.Label:SetText(""..kills.." loots - "..string.format("%.1f", totalChance).."%");
+	BH.Label:SetText(""..kills.." loots - "..BH.FormatPercent(totalChance).."%");
 
 	BH.Button:SetNormalTexture(itemData.itemTexture or [[Interface\Icons\INV_Misc_QuestionMark]]);
 end
@@ -594,7 +616,7 @@ function BH.ShowTooltip()
 	GameTooltip:AddLine(" ")
 	GameTooltip:AddDoubleLine("Loots since last drop:", totalKillsSince, 1,1,1,1,1,1)
 	GameTooltip:AddDoubleLine("Drop chance:", " 1 in "..invChance, 1,1,1,1,1,1)
-	GameTooltip:AddDoubleLine("Chance so far:", string.format("%.1f", totalChance).."%", 1,1,1,1,1,1)
+	GameTooltip:AddDoubleLine("Chance so far:", BH.FormatPercent(totalChance).."%", 1,1,1,1,1,1)
 	GameTooltip:AddLine(" ")
 	GameTooltip:AddDoubleLine("Total loots:", totalKills, 1,1,1,1,1,1)
 
@@ -619,7 +641,7 @@ function BH.ShowTooltip()
 				GameTooltip:AddLine(" ")
 			end
 
-			GameTooltip:AddDoubleLine("Drop "..drop, lootsThis.." loots / "..string.format("%.1f", thisChance).."%", 1,1,1,1,1,1);
+			GameTooltip:AddDoubleLine("Drop "..drop, lootsThis.." loots / "..BH.FormatPercent(thisChance).."%", 1,1,1,1,1,1);
 
 			drop = drop + 1;
 		end
