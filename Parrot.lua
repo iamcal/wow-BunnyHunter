@@ -14,26 +14,26 @@ Parrot.lootOpen = false;
 
 Parrot.dropChances["8494"] = 1/10000;
 Parrot.trackKills["8494"] = {
-	['"Pretty Boy" Duncan']		= 1;
-	["Bloodsail Raider"]		= 1;
-	["Bloodsail Mage"]		= 1;
-	["Bloodsail Deckhand"]		= 1;
-	["Bloodsail Warlock"]		= 1;
-	["Bloodsail Swashbuckler"]	= 1;
-	["Bloodsail Swabby"]		= 1;
-	["Bloodsail Sea Dog"]		= 1;
-	["Bloodsail Elder Magus"]	= 1;
+	'"Pretty Boy" Duncan',
+	"Bloodsail Raider",
+	"Bloodsail Mage",
+	"Bloodsail Deckhand",
+	"Bloodsail Warlock",
+	"Bloodsail Swashbuckler",
+	"Bloodsail Swabby",
+	"Bloodsail Sea Dog",
+	"Bloodsail Elder Magus",
 };
 
 Parrot.dropChances["48116"] = 1/1000;
 Parrot.trackKills["48116"] = {
-	["Gundrak Raptor"]	= 1;
+	"Gundrak Raptor",
 };
 
 Parrot.dropChances["5465"] = 1/10;
 Parrot.trackKills["5465"] = {
-	["Forest Spider"] = 1;
-	["Mangy Wolf"] = 1;
+	"Forest Spider",
+	"Mangy Wolf",
 };
 
 
@@ -49,7 +49,7 @@ function Parrot.OnLoad()
 
 	for item, names in pairs(Parrot.trackKills) do
 
-		for name, junk in pairs(names) do
+		for _, name in pairs(names) do
 
 			Parrot.nameList[name] = item;
 		end
@@ -133,7 +133,7 @@ function Parrot.GetTotalKills(itemId)
 
 	local totalKills = 0;
 	if (Parrot.trackKills[itemId]) then
-		for name, junk in pairs(Parrot.trackKills[itemId]) do
+		for _, name in pairs(Parrot.trackKills[itemId]) do
 
 			totalKills = totalKills + (_G.parrotDB.kills[name] or 0);
 		end
@@ -178,7 +178,21 @@ function Parrot.ItemData(itemId)
 	};
 end
 
-function Parrot.DumpStatus()w
+function Parrot.GetItemColor(itemLink)
+
+	local _, color = strsplit("|", itemLink);
+
+	return color;
+end
+
+function Parrot.GetItemColoredName(itemData)
+
+	local color = Parrot.GetItemColor(itemData.itemLink)
+
+	return "|"..color..itemData.itemName
+end
+
+function Parrot.DumpStatus()
 
 	for itemId, names in pairs(Parrot.trackKills) do
 
@@ -453,7 +467,7 @@ function Parrot.ShowMenu()
 
 		local itemData = Parrot.ItemData(itemId);
 
-		table.insert(menuList, { text = itemData.itemName, func = function() Parrot.SetItem(itemId) end; });
+		table.insert(menuList, { text = Parrot.GetItemColoredName(itemData), func = function() Parrot.SetItem(itemId) end; });
 	end
 
 	EasyMenu(menuList, menu_frame, Parrot.Button, 0 , 0, "MENU")
@@ -479,7 +493,7 @@ function Parrot.ShowTooltip()
 	local invChance = 1 / dropChance
 	local totalChance = 100 * (1 - math.pow(1 - dropChance, totalKillsSince));
 
-	GameTooltip:SetText(itemData.itemLink)
+	GameTooltip:SetText(Parrot.GetItemColoredName(itemData))
 
 	GameTooltip:AddLine(" ")
 	GameTooltip:AddDoubleLine("Loots since last drop:", totalKillsSince, 1,1,1,1,1,1)
@@ -489,7 +503,7 @@ function Parrot.ShowTooltip()
 	GameTooltip:AddDoubleLine("Total loots:", totalKills, 1,1,1,1,1,1)
 
 	if (Parrot.trackKills[itemId]) then
-		for name, junk in pairs(Parrot.trackKills[itemId]) do
+		for _, name in pairs(Parrot.trackKills[itemId]) do
 
 			GameTooltip:AddDoubleLine(name..":", (_G.parrotDB.kills[name] or 0), 1,1,1,1,1,1);
 		end
