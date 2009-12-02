@@ -465,7 +465,7 @@ function Parrot.StartFrame()
 	Parrot.ProgressBar:SetMinMaxValues(0, 100)
 	Parrot.ProgressBar:SetValue(100)
 	Parrot.ProgressBar:SetOrientation("HORIZONTAL")
-	Parrot.ProgressBar:SetStatusBarTexture([[Interface\Addons\Recount\Textures\statusbar\BantoBar]], "ARTWORK")
+	Parrot.ProgressBar:SetStatusBarTexture([[Interface\TargetingFrame\UI-StatusBar]], "ARTWORK")
 	Parrot.ProgressBar:SetStatusBarColor(0, 1, 0)
 
 	Parrot.ProgressBar:EnableMouse(true); 
