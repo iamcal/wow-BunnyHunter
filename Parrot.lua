@@ -1,4 +1,5 @@
 Parrot = {}
+Parrot.trackDrops = {};
 Parrot.trackKills = {};
 Parrot.dropChances = {};
 
@@ -11,7 +12,8 @@ Parrot.lootOpen = false;
 -- START OF THE MOBS
 --
 
-
+-- Hyacinth Macaw
+table.insert(Parrot.trackDrops, "8494");
 Parrot.dropChances["8494"] = 1/10000;
 Parrot.trackKills["8494"] = {
 	'"Pretty Boy" Duncan',
@@ -25,17 +27,104 @@ Parrot.trackKills["8494"] = {
 	"Bloodsail Elder Magus",
 };
 
+-- Deviate Hatchling
+table.insert(Parrot.trackDrops, "48114");
+Parrot.dropChances["48114"] = 1/100;
+Parrot.trackKills["48114"] = {
+	"Deviate Guardian",
+	"Deviate Ravager",
+};
+
+-- Gundrak Hatchling
+table.insert(Parrot.trackDrops, "48116");
 Parrot.dropChances["48116"] = 1/1000;
 Parrot.trackKills["48116"] = {
 	"Gundrak Raptor",
 };
 
+-- Razzashi Hatchling
+table.insert(Parrot.trackDrops, "48126");
+Parrot.dropChances["48126"] = 1/1000;
+Parrot.trackKills["48126"] = {
+	"Razzashi Raptor",
+};
+
+-- Captured Firefly (29960)
+table.insert(Parrot.trackDrops, "29960");
+Parrot.dropChances["29960"] = 1/1000;
+Parrot.trackKills["29960"] = {
+	"Captured Firefly",
+};
+
+-- Azure Whelpling (34535)
+table.insert(Parrot.trackDrops, "34535");
+Parrot.dropChances["34535"] = 1/1000;
+Parrot.trackKills["34535"] = {
+	"Draconic Magelord",
+	"Blue Scalebane",
+	"Draconic Mageweaver",
+	"Blue Dragonspawn",
+};
+
+-- Tiny Crimson Whelpling (8499)
+table.insert(Parrot.trackDrops, "8499");
+Parrot.dropChances["8499"] = 1/1000;
+Parrot.trackKills["8499"] = {
+	"Red Whelp",
+	"Flamesnorting Whelp",
+	"Crimson Whelp",
+};
+
+-- Dark Whelpling (10822)
+table.insert(Parrot.trackDrops, "10822");
+Parrot.dropChances["10822"] = 1/1000;
+Parrot.trackKills["10822"] = {
+	"Searing Whelp",
+	"Scalding Whelp",
+};
+
+-- Tiny Emerald Whelpling (8498)
+table.insert(Parrot.trackDrops, "8498");
+Parrot.dropChances["8498"] = 1/1000;
+Parrot.trackKills["8498"] = {
+	"Dreaming Whelp",
+	"Adolescent Whelp",
+};
+
+-- Black Tabby Cat (8491)
+table.insert(Parrot.trackDrops, "8491");
+Parrot.dropChances["8491"] = 1/1000;
+Parrot.trackKills["8491"] = {
+	"Dalaran Summoner",
+	"Dalaran Theurgist",
+	"Dalaran Shield Guard",
+};
+
+-- Green Wing Macaw (8492)
+table.insert(Parrot.trackDrops, "8492");
+Parrot.dropChances["8492"] = 1/1000;
+Parrot.trackKills["8492"] = {
+	"Defias Pirate",
+};
+
+-- Phoenix Hatchling (35504)
+table.insert(Parrot.trackDrops, "35504");
+Parrot.dropChances["35504"] = 1/10;
+Parrot.trackKills["35504"] = {
+	"Kael'thas Sunstrider",
+};
+
+-- Disgusting Oozeling (20769) (SPECIAL!)
+-- Sprite Darter Hatchling (horde only)
+
+
+if (false) then
 Parrot.dropChances["5465"] = 1/10;
 Parrot.trackKills["5465"] = {
 	"Forest Spider",
 	"Mangy Wolf",
 };
-
+end
 
 --
 -- END OF THE MOBS
@@ -180,16 +269,24 @@ end
 
 function Parrot.GetItemColor(itemLink)
 
-	local _, color = strsplit("|", itemLink);
+	if (itemLink) then
+		local _, color = strsplit("|", itemLink);
+		return color;
+	end
 
-	return color;
+	return 'cffffff00';
 end
 
-function Parrot.GetItemColoredName(itemData)
+function Parrot.GetItemColoredName(itemId)
 
-	local color = Parrot.GetItemColor(itemData.itemLink)
+	local itemData = Parrot.ItemData(itemId);
 
-	return "|"..color..itemData.itemName
+	if (itemData.itemName) then
+		local color = Parrot.GetItemColor(itemData.itemLink)
+		return "|"..color..itemData.itemName
+	end
+
+	return "|cffffff00Unseen Item "..itemId
 end
 
 function Parrot.DumpStatus()
@@ -451,9 +548,9 @@ function Parrot.UpdateFrame()
 	local totalChance = 100 * (1 - math.pow(1 - dropChance, kills));
 
 	Parrot.ProgressBar:SetValue(totalChance)
-	--Parrot.Label:SetText(itemData.itemName.." - "..kills.." loots = "..string.format("%.1f", totalChance).."%");
 	Parrot.Label:SetText(""..kills.." loots - "..string.format("%.1f", totalChance).."%");
-	Parrot.Button:SetNormalTexture(itemData.itemTexture);
+
+	Parrot.Button:SetNormalTexture(itemData.itemTexture or [[Interface\Icons\INV_Misc_QuestionMark]]);
 end
 
 
@@ -463,11 +560,9 @@ function Parrot.ShowMenu()
 
 	local menuList = {};
 
-	for itemId, _ in pairs(Parrot.trackKills) do
+	for _, itemId in pairs(Parrot.trackDrops) do
 
-		local itemData = Parrot.ItemData(itemId);
-
-		table.insert(menuList, { text = Parrot.GetItemColoredName(itemData), func = function() Parrot.SetItem(itemId) end; });
+		table.insert(menuList, { text = Parrot.GetItemColoredName(itemId), func = function() Parrot.SetItem(itemId) end; });
 	end
 
 	EasyMenu(menuList, menu_frame, Parrot.Button, 0 , 0, "MENU")
@@ -493,7 +588,7 @@ function Parrot.ShowTooltip()
 	local invChance = 1 / dropChance
 	local totalChance = 100 * (1 - math.pow(1 - dropChance, totalKillsSince));
 
-	GameTooltip:SetText(Parrot.GetItemColoredName(itemData))
+	GameTooltip:SetText(Parrot.GetItemColoredName(itemId))
 
 	GameTooltip:AddLine(" ")
 	GameTooltip:AddDoubleLine("Loots since last drop:", totalKillsSince, 1,1,1,1,1,1)
@@ -528,7 +623,8 @@ function Parrot.ShowTooltip()
 			drop = drop + 1;
 		end
 	end
-	
+
+	--GameTooltip:AddLine(itemData.itemTexture);
 
 	GameTooltip:ClearAllPoints()
 	GameTooltip:SetPoint("TOPLEFT", Parrot.ProgressBar, "BOTTOMLEFT"); 
