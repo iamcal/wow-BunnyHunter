@@ -175,6 +175,7 @@ BH.dropConfig = {
 			"Forest Spider",
 			"Mangy Wolf",
 		},
+		hidden	= true,
 	}
 
 };
@@ -201,7 +202,7 @@ function BH.OnLoad()
 
 	for _, dropData in pairs(BH.dropConfig) do
 
-		if (dropData.id) then
+		if (dropData.id and not dropData.hidden) then
 
 			BH.itemData[dropData.id] = dropData;
 
@@ -223,6 +224,13 @@ function BH.OnReady()
 	_G.BunnyHunterDB.opts = _G.BunnyHunterDB.opts or {};
 
 	_G.BunnyHunterDB.opts.curItem = _G.BunnyHunterDB.opts.curItem or "8494";
+
+
+	-- pick a choice that's enabled pls :)
+	if (not BH.itemData[_G.BunnyHunterDB.opts.curItem]) then
+
+		_G.BunnyHunterDB.opts.curItem = "8494";
+	end
 
 	--BH.DumpStatus();
 
@@ -666,15 +674,18 @@ function BH.ShowMenu()
 
 		if (dropData.id) then
 
-			local icon = "|T"..dropData.icon..":0|t ";
+			if (not dropData.hidden) then
 
-			table.insert(menuList, {
-				text = "    "..BH.GetItemColoredName(dropData.id),
-				func = function() BH.SetItem(dropData.id) end,
-				--fontObject = "GameFontNormalLarge",
-				isTitle = false,
-				checked = _G.BunnyHunterDB.opts.curItem == dropData.id,
-			});
+				local icon = "|T"..dropData.icon..":0|t ";
+
+				table.insert(menuList, {
+					text = "    "..BH.GetItemColoredName(dropData.id),
+					func = function() BH.SetItem(dropData.id) end,
+					--fontObject = "GameFontNormalLarge",
+					isTitle = false,
+					checked = _G.BunnyHunterDB.opts.curItem == dropData.id,
+				});
+			end
 		else
 
 			if (not first) then
