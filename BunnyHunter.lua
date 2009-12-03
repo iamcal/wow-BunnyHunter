@@ -200,6 +200,14 @@ function BH.OnLoad()
 	BH.nameList = {};	-- name -> itemId map
 	BH.itemData = {};	-- itemId -> dropData map
 
+	BH.inSession = false;
+	BH.sessionStarted = 0;
+	BH.sessionLast = 0;
+	BH.sessionEnds = 0;
+
+	BH.sessionLength = 60 * 5; -- 5m
+	--BH.sessionLength = 20;
+
 	for _, dropData in pairs(BH.dropConfig) do
 
 		if (dropData.id and not dropData.hidden) then
@@ -222,9 +230,9 @@ function BH.OnReady()
 	_G.BunnyHunterDB.kills = _G.BunnyHunterDB.kills or {};
 	_G.BunnyHunterDB.loots = _G.BunnyHunterDB.loots or {};
 	_G.BunnyHunterDB.opts = _G.BunnyHunterDB.opts or {};
+	_G.BunnyHunterDB.times = _G.BunnyHunterDB.times or {};
 
 	_G.BunnyHunterDB.opts.curItem = _G.BunnyHunterDB.opts.curItem or "8494";
-
 
 	-- pick a choice that's enabled pls :)
 	if (not BH.itemData[_G.BunnyHunterDB.opts.curItem]) then
@@ -232,13 +240,32 @@ function BH.OnReady()
 		_G.BunnyHunterDB.opts.curItem = "8494";
 	end
 
+	-- convert the stored loots data from single numbers to tables
+	for itemId, loots in pairs(_G.BunnyHunterDB.loots) do
+		for uid, lootData in pairs(loots) do
+
+			if (not (type(lootData) == "table")) then
+
+				local newLoot = {
+					loots = lootData,
+					time = 0,
+				};
+
+				_G.BunnyHunterDB.loots[itemId][uid] = newLoot;
+			end
+		end
+	end
+
+
 	--BH.DumpStatus();
 
 	BH.StartFrame();
 end
 
 function BH.OnSaving()
-	
+
+	BH.EndSession();
+
 	local point, relativeTo, relativePoint, xOfs, yOfs = BH.UIFrame:GetPoint()
 	_G.BunnyHunterDB.opts.frameRef = relativePoint;
 	_G.BunnyHunterDB.opts.frameX = xOfs;
@@ -267,8 +294,13 @@ function BH.DoWeCare(test_name)
 		if (_G.BunnyHunterDB.opts.curItem == itemId) then
 
 			--print("Item "..itemId.." is already selected")
+
+			BH.UpdateSession();
 		else
 			--print("Item "..itemId.." is NOW selected")
+
+			BH.EndSession();
+			BH.StartSession();
 
 			_G.BunnyHunterDB.opts.curItem = itemId;
 		end
@@ -289,7 +321,10 @@ function BH.FoundLoot(itemId)
 		_G.BunnyHunterDB.loots[itemId] = {};
 	end
 
-	table.insert(_G.BunnyHunterDB.loots[itemId], BH.GetTotalKills(itemId));
+	table.insert(_G.BunnyHunterDB.loots[itemId], {
+		loots = BH.GetTotalKills(itemId),
+		time = _G.BunnyHunterDB.times[itemId],
+	});
 
 	BH.UpdateFrame();
 end
@@ -314,14 +349,44 @@ function BH.GetTotalKillsSince(itemId)
 
 	-- find the last time we found the thing we're looking for...
 	if (_G.BunnyHunterDB.loots[itemId]) then
-		for _, num in pairs(_G.BunnyHunterDB.loots[itemId]) do
-			if (num > latestKill) then
-				latestKill = num
+		for _, lootData in pairs(_G.BunnyHunterDB.loots[itemId]) do
+			if (lootData.loots > latestKill) then
+				latestKill = lootData.loots
 			end
 		end
 	end
 
 	return totalKills - latestKill;
+end
+
+function BH.GetTotalTime(itemId)
+
+	local saved = _G.BunnyHunterDB.times[itemId] or 0;
+	local fresh = 0;
+
+	if (itemId == _G.BunnyHunterDB.opts.curItem and BH.inSession) then
+
+		fresh = GetTime() - BH.sessionStarted;
+	end
+
+	return saved + fresh;
+end
+
+function BH.GetTotalTimeSince(itemId)
+
+	local totalTime = BH.GetTotalTime(itemId);
+	local latestTime = 0;
+
+	-- find the last time we found the thing we're looking for...
+	if (_G.BunnyHunterDB.loots[itemId]) then
+		for _, lootData in pairs(_G.BunnyHunterDB.loots[itemId]) do
+			if (lootData.time > latestTime) then
+				latestTime = lootData.time
+			end
+		end
+	end
+
+	return totalTime - latestTime;
 end
 
 function BH.GetKillsLatest(itemId)
@@ -330,10 +395,10 @@ function BH.GetKillsLatest(itemId)
 	local lastLoot = 0;
 
 	if (_G.BunnyHunterDB.loots[itemId]) then
-		for _, loots in pairs(_G.BunnyHunterDB.loots[itemId]) do
+		for _, lootData in pairs(_G.BunnyHunterDB.loots[itemId]) do
 
-			lootsThis = loots - lastLoot;
-			lastLoot = loots;
+			lootsThis = lootData.loots - lastLoot;
+			lastLoot = lootData.loots;
 		end
 	end
 
@@ -498,6 +563,29 @@ function BH.FormatPercent(p)
 	if (x == "0.000" or x == "99.999") then x = string.format("%.4f", p) end;
 
 	return x;
+end
+
+function BH.FormatTime(t)
+
+	if (t == 0) then
+		return "?";
+	end
+
+	local h = math.floor(t / (60 * 60));
+	t = t - (60 * 60 * h);
+	local m = math.floor(t / 60);
+	t = t - (60 * m);
+	local s = t;
+
+	if (h > 0) then
+		return string.format("%d:%02d:%02d", h, m, s);
+	end
+
+	if (m > 0) then
+		return string.format("%d:%02d", m, s);
+	end
+
+	return string.format("%d", s).."s";
 end
 
 function BH.OnDragStart(frame)
@@ -712,7 +800,13 @@ end
 
 function BH.SetItem(itemId)
 
-	_G.BunnyHunterDB.opts.curItem = itemId;
+	if (not _G.BunnyHunterDB.opts.curItem == itemId) then
+
+		BH.EndSession();
+
+		_G.BunnyHunterDB.opts.curItem = itemId;
+	end
+
 	BH.UpdateFrame();
 end
 
@@ -723,8 +817,12 @@ function BH.ShowTooltip()
 
 	local itemId = _G.BunnyHunterDB.opts.curItem;
 	local itemData = BH.ItemData(itemId);
+
 	local totalKills = BH.GetTotalKills(itemId);
 	local totalKillsSince = BH.GetTotalKillsSince(itemId);
+
+	local totalTime = BH.GetTotalTime(itemId);
+	local totalTimeSince = BH.GetTotalTimeSince(itemId);
 
 	local dropChance = BH.itemData[itemId].rate;
 	local invChance = 1 / dropChance
@@ -737,8 +835,16 @@ function BH.ShowTooltip()
 
 	GameTooltip:AddLine(" ")
 	GameTooltip:AddDoubleLine("Loots since last drop:", totalKillsSince, 1,1,1,1,1,1)
+
+	if (BH.inSession) then
+		GameTooltip:AddDoubleLine("Farm time:", BH.FormatTime(totalTimeSince), 1,1,1,1,0.4,0.4)
+	else
+		GameTooltip:AddDoubleLine("Farm time:", BH.FormatTime(totalTimeSince), 1,1,1,1,1,1)
+	end
+
 	GameTooltip:AddDoubleLine("Drop chance:", " 1 in "..invChance, 1,1,1,1,1,1)
 	GameTooltip:AddDoubleLine("Chance so far:", BH.FormatPercent(totalChance).."%", 1,1,1,1,1,1)
+
 	GameTooltip:AddLine(" ")
 	GameTooltip:AddDoubleLine("Total loots:", totalKills, 1,1,1,1,1,1)
 
@@ -750,20 +856,25 @@ function BH.ShowTooltip()
 	end
 
 	local lastLoot = 0;
+	local lastTime = 0;
 	local drop = 1;
 
 	if (_G.BunnyHunterDB.loots[itemId]) then
-		for _, loots in pairs(_G.BunnyHunterDB.loots[itemId]) do
+		for _, lootData in pairs(_G.BunnyHunterDB.loots[itemId]) do
 
-			local lootsThis = loots - lastLoot;
-			lastLoot = loots;
+			local timeThis = lootData.time - lastTime;
+			lastTime = lootData.time;
+
+			local lootsThis = lootData.loots - lastLoot;
+			lastLoot = lootData.loots;
+
 			local thisChance = 100 * (1 - math.pow(1 - dropChance, lootsThis));
 
 			if (drop == 1) then
 				GameTooltip:AddLine(" ")
 			end
 
-			GameTooltip:AddDoubleLine("Drop "..drop, lootsThis.." loots / "..BH.FormatPercent(thisChance).."%", 1,1,1,1,1,1);
+			GameTooltip:AddDoubleLine("Drop "..drop, lootsThis.." loots / "..BH.FormatTime(timeThis).." / "..BH.FormatPercent(thisChance).."%", 1,1,1,1,1,1);
 
 			drop = drop + 1;
 		end
@@ -775,6 +886,57 @@ function BH.ShowTooltip()
 	GameTooltip:SetPoint("TOPLEFT", BH.ProgressBar, "BOTTOMLEFT"); 
 
 	GameTooltip:Show()
+end
+
+
+function BH.UpdateSession()
+
+	--print(":: Updating session");
+
+	if (BH.inSession) then
+
+		BH.sessionLast = GetTime();
+		BH.sessionEnds = BH.sessionLast + BH.sessionLength;
+	else
+		BH.StartSession();
+	end
+end
+
+function BH.EndSession()
+
+	if (BH.inSession) then
+
+		local len = BH.sessionLast - BH.sessionStarted;
+		local itemId = _G.BunnyHunterDB.opts.curItem;
+
+		--print(":: Ending session ("..len..")");
+
+		_G.BunnyHunterDB.times[itemId] = (_G.BunnyHunterDB.times[itemId] or 0) + len;
+	end
+
+	BH.inSession = false;
+end
+
+function BH.StartSession()
+
+	--print(":: Starting session");
+
+	BH.inSession = true;
+	BH.sessionStarted = GetTime();
+	BH.sessionLast = BH.sessionStarted;
+	BH.sessionEnds = BH.sessionLast + BH.sessionLength;
+
+	-- assume we started at least 1 second ago.
+	-- killing a single mob will add 1 second to the total time.
+	BH.sessionStarted = BH.sessionStarted - 1;
+end
+
+function BH.OnUpdate()
+
+	if (BH.inSession and GetTime() > BH.sessionEnds) then
+
+		BH.EndSession();
+	end
 end
 
 
@@ -790,6 +952,7 @@ end
 BH.Frame = CreateFrame("Frame")
 BH.Frame:Show()
 BH.Frame:SetScript("OnEvent", BH.OnEvent)
+BH.Frame:SetScript("OnUpdate", BH.OnUpdate)
 BH.Frame:RegisterEvent("ADDON_LOADED")
 BH.Frame:RegisterEvent("PLAYER_TARGET_CHANGED")
 BH.Frame:RegisterEvent("LOOT_OPENED")
