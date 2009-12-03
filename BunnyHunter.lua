@@ -1,131 +1,187 @@
 BH = {}
-BH.trackDrops = {};
-BH.trackKills = {};
-BH.dropChances = {};
-
-BH.seenGuids = {};
-BH.nameList = {};	-- a list of mob names we care about (for speed!)
-BH.lootOpen = false;
 
 -- ##################################################################
 --
 -- START OF THE MOBS
 --
 
--- Hyacinth Macaw
-table.insert(BH.trackDrops, "8494");
-BH.dropChances["8494"] = 1/10000;
-BH.trackKills["8494"] = {
-	'"Pretty Boy" Duncan',
-	"Bloodsail Raider",
-	"Bloodsail Mage",
-	"Bloodsail Deckhand",
-	"Bloodsail Warlock",
-	"Bloodsail Swashbuckler",
-	"Bloodsail Swabby",
-	"Bloodsail Sea Dog",
-	"Bloodsail Elder Magus",
+
+BH.dropConfig = {
+
+	{
+		name	= "Parrots",
+	},
+
+	{
+		id	= "8494",
+		name	= "Hyacinth Macaw",
+		rate	= 1/10000,
+		icon	= [[Interface\Icons\spell_nature_forceofnature]],
+		mobs	= {
+			'"Pretty Boy" Duncan',
+			"Bloodsail Raider",
+			"Bloodsail Mage",
+			"Bloodsail Deckhand",
+			"Bloodsail Warlock",
+			"Bloodsail Swashbuckler",
+			"Bloodsail Swabby",
+			"Bloodsail Sea Dog",
+			"Bloodsail Elder Magus",			
+		}
+	},
+
+	{
+		id	= "8492",
+		name	= "Green Wing Macaw",
+		rate	= 1/1000,
+		icon	= [[Interface\Icons\spell_nature_forceofnature]],
+		mobs	= {
+			"Defias Pirate",
+		},
+	},
+
+
+	{
+		name	= "Hatchlings",
+	},
+
+	{
+		id	= "48114",
+		name	= "Deviate Hatchling",
+		rate	= 1/100,
+		icon	= [[Interface\Icons\ability_hunter_pet_raptor]],
+		mobs	= {
+			"Deviate Guardian",
+			"Deviate Ravager",
+		},
+	},
+
+	{
+		id	= "48116",
+		name	= "Gundrak Hatchling",
+		rate	= 1/1000,
+		icon	= [[Interface\Icons\ability_mount_raptor]],
+		mobs	= {
+			"Gundrak Raptor",
+		},
+	},
+
+	{
+		id	= "48126",
+		name	= "Razzashi Hatchling",
+		rate	= 1/1000,
+		icon	= [[Interface\Icons\ability_hunter_pet_raptor]],
+		mobs	= {
+			"Razzashi Raptor",
+		},
+	},
+
+
+
+	{
+		name	= "Whelplings",
+	},
+
+	{
+		id	= "34535",
+		name	= "Azure Whelpling",
+		rate	= 1/1000,
+		icon	= [[Interface\Icons\inv_misc_head_dragon_blue]],
+		mobs	= {
+			"Draconic Magelord",
+			"Blue Scalebane",
+			"Draconic Mageweaver",
+			"Blue Dragonspawn",
+		},
+	},
+
+	{
+		id	= "8499",
+		name	= "Tiny Crimson Whelpling",
+		rate	= 1/1000,
+		icon	= [[Interface\Icons\inv_misc_head_dragon_01]],
+		mobs	= {
+			"Red Whelp",
+			"Flamesnorting Whelp",
+			"Crimson Whelp",
+		},
+	},
+
+	{
+		id	= "10822",
+		name	= "Dark Whelpling",
+		rate	= 1/1000,
+		icon	= [[Interface\Icons\inv_misc_head_dragon_black]],
+		mobs	= {
+			"Searing Whelp",
+			"Scalding Whelp",
+		},
+	},
+
+	{
+		id	= "8498",
+		name	= "Tiny Emerald Whelpling",
+		rate	= 1/1000,
+		icon	= [[Interface\Icons\inv_misc_head_dragon_green]],
+		mobs	= {
+			"Dreaming Whelp",
+			"Adolescent Whelp",
+		},
+	},
+
+
+	{
+		name	= "Misc",
+	},
+
+	{
+		id	= "29960",
+		name	= "Captured Firefly",
+		rate	= 1/1000,
+		icon	= [[Interface\Icons\inv_box_birdcage_01]],
+		mobs	= {
+			"Bogflare Needler",
+		},
+	},
+
+	{
+		id	= "8491",
+		name	= "Black Tabby Cat",
+		rate	= 1/1000,
+		icon	= [[Interface\Icons\inv_box_petcarrier_01]],
+		mobs	= {
+			"Dalaran Summoner",
+			"Dalaran Theurgist",
+			"Dalaran Shield Guard",
+		},
+	},
+
+	{
+		id	= "35504",
+		name	= "Phoenix Hatchling",
+		icon	= [[Interface\Icons\INV_Misc_PheonixPet_01]],
+		rate	= 1/10,
+		mobs	= {
+			"Kael'thas Sunstrider",
+		},
+	},
+
+	{
+		id	= "5465",
+		name	= "Small Spider Leg",
+		icon	= [[Interface\Icons\INV_Misc_monsterspidercarapace_01]],
+		rate	= 1/10,
+		mobs	= {
+			"Forest Spider",
+			"Mangy Wolf",
+		},
+	}
+
 };
 
--- Deviate Hatchling
-table.insert(BH.trackDrops, "48114");
-BH.dropChances["48114"] = 1/100;
-BH.trackKills["48114"] = {
-	"Deviate Guardian",
-	"Deviate Ravager",
-};
-
--- Gundrak Hatchling
-table.insert(BH.trackDrops, "48116");
-BH.dropChances["48116"] = 1/1000;
-BH.trackKills["48116"] = {
-	"Gundrak Raptor",
-};
-
--- Razzashi Hatchling
-table.insert(BH.trackDrops, "48126");
-BH.dropChances["48126"] = 1/1000;
-BH.trackKills["48126"] = {
-	"Razzashi Raptor",
-};
-
--- Captured Firefly (29960)
-table.insert(BH.trackDrops, "29960");
-BH.dropChances["29960"] = 1/1000;
-BH.trackKills["29960"] = {
-	"Captured Firefly",
-};
-
--- Azure Whelpling (34535)
-table.insert(BH.trackDrops, "34535");
-BH.dropChances["34535"] = 1/1000;
-BH.trackKills["34535"] = {
-	"Draconic Magelord",
-	"Blue Scalebane",
-	"Draconic Mageweaver",
-	"Blue Dragonspawn",
-};
-
--- Tiny Crimson Whelpling (8499)
-table.insert(BH.trackDrops, "8499");
-BH.dropChances["8499"] = 1/1000;
-BH.trackKills["8499"] = {
-	"Red Whelp",
-	"Flamesnorting Whelp",
-	"Crimson Whelp",
-};
-
--- Dark Whelpling (10822)
-table.insert(BH.trackDrops, "10822");
-BH.dropChances["10822"] = 1/1000;
-BH.trackKills["10822"] = {
-	"Searing Whelp",
-	"Scalding Whelp",
-};
-
--- Tiny Emerald Whelpling (8498)
-table.insert(BH.trackDrops, "8498");
-BH.dropChances["8498"] = 1/1000;
-BH.trackKills["8498"] = {
-	"Dreaming Whelp",
-	"Adolescent Whelp",
-};
-
--- Black Tabby Cat (8491)
-table.insert(BH.trackDrops, "8491");
-BH.dropChances["8491"] = 1/1000;
-BH.trackKills["8491"] = {
-	"Dalaran Summoner",
-	"Dalaran Theurgist",
-	"Dalaran Shield Guard",
-};
-
--- Green Wing Macaw (8492)
-table.insert(BH.trackDrops, "8492");
-BH.dropChances["8492"] = 1/1000;
-BH.trackKills["8492"] = {
-	"Defias Pirate",
-};
-
--- Phoenix Hatchling (35504)
-table.insert(BH.trackDrops, "35504");
-BH.dropChances["35504"] = 1/10;
-BH.trackKills["35504"] = {
-	"Kael'thas Sunstrider",
-};
 
 -- Disgusting Oozeling (20769) (SPECIAL!)
 -- Sprite Darter Hatchling (horde only)
-
-
-if (false) then
-table.insert(BH.trackDrops, "5465");
-BH.dropChances["5465"] = 1/10;
-BH.trackKills["5465"] = {
-	"Forest Spider",
-	"Mangy Wolf",
-};
-end
 
 --
 -- END OF THE MOBS
@@ -137,11 +193,22 @@ function BH.OnLoad()
 
 	--print("BH.OnLoad()");
 
-	for item, names in pairs(BH.trackKills) do
+	BH.lootOpen = false;
 
-		for _, name in pairs(names) do
+	BH.seenGuids = {};	-- a list of GUIDs already looted
+	BH.nameList = {};	-- name -> itemId map
+	BH.itemData = {};	-- itemId -> dropData map
 
-			BH.nameList[name] = item;
+	for _, dropData in pairs(BH.dropConfig) do
+
+		if (dropData.id) then
+
+			BH.itemData[dropData.id] = dropData;
+
+			for _, name in pairs(dropData.mobs) do
+
+				BH.nameList[name] = dropData.id;
+			end
 		end
 	end
 end
@@ -222,8 +289,8 @@ end
 function BH.GetTotalKills(itemId)
 
 	local totalKills = 0;
-	if (BH.trackKills[itemId]) then
-		for _, name in pairs(BH.trackKills[itemId]) do
+	if (BH.itemData[itemId].mobs) then
+		for _, name in pairs(BH.itemData[itemId].mobs) do
 
 			totalKills = totalKills + (_G.BunnyHunterDB.kills[name] or 0);
 		end
@@ -247,6 +314,22 @@ function BH.GetTotalKillsSince(itemId)
 	end
 
 	return totalKills - latestKill;
+end
+
+function BH.GetKillsLatest(itemId)
+
+	local lootsThis = 0;
+	local lastLoot = 0;
+
+	if (_G.BunnyHunterDB.loots[itemId]) then
+		for _, loots in pairs(_G.BunnyHunterDB.loots[itemId]) do
+
+			lootsThis = loots - lastLoot;
+			lastLoot = loots;
+		end
+	end
+
+	return lootsThis;
 end
 
 function BH.ItemData(itemId)
@@ -287,29 +370,12 @@ function BH.GetItemColoredName(itemId)
 		return "|"..color..itemData.itemName
 	end
 
-	return "|cffffff00Unseen Item "..itemId
+	itemData = BH.itemData[itemId];
+
+	return "|cffffffcc"..itemData.name
 end
 
 function BH.DumpStatus()
-
-	for itemId, names in pairs(BH.trackKills) do
-
-		itemName, itemLink, itemRarity, itemLevel, itemMinLevel, itemType, itemSubType, itemStackCount, itemEquipLoc, itemTexture, itemSellPrice = GetItemInfo(itemId);
-
-		print("Info for item "..itemId.." / "..itemName);
-
-		local totalKills = BH.GetTotalKills(itemId);
-
-		print("---Total kills for all mobs: "..totalKills);
-
-		if (_G.BunnyHunterDB.loots[itemId]) then
-			for _, num in pairs(_G.BunnyHunterDB.loots[itemId]) do
-
-				print("--found at "..num.." kills");
-			end
-		end
-
-	end
 
 end
 
@@ -400,7 +466,7 @@ function BH.OnLoot()
 
 				--print("found item id "..itemId);
 
-				if (BH.trackKills[itemId]) then
+				if (BH.itemData[itemId]) then
 
 					--print("we care about that!!");
 					BH.FoundLoot(itemId);
@@ -502,7 +568,7 @@ function BH.StartFrame()
 
 	-- some text to go over it
 	BH.Label = BH.ProgressBar:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
-	BH.Label:SetPoint("LEFT", BH.ProgressBar, "LEFT", 2, 0)
+	BH.Label:SetPoint("CENTER", BH.ProgressBar, "CENTER", 2, 0)
 	BH.Label:SetJustifyH("LEFT")
 	BH.Label:SetText("Test Text")
 	BH.Label:SetTextColor(1,1,1,1)
@@ -566,14 +632,26 @@ function BH.UpdateFrame()
 	local itemId = _G.BunnyHunterDB.opts.curItem;
 	local itemData = BH.ItemData(itemId);
 	local kills = BH.GetTotalKillsSince(itemId);
+	local killsTotal = BH.GetTotalKills(itemId);
 
-	local dropChance = BH.dropChances[itemId];
+	local dropChance = BH.itemData[itemId].rate;
 	local totalChance = 100 * (1 - math.pow(1 - dropChance, kills));
 
-	BH.ProgressBar:SetValue(totalChance)
-	BH.Label:SetText(""..kills.." loots - "..BH.FormatPercent(totalChance).."%");
+	if (kills == 0 and killsTotal > 0) then
 
-	BH.Button:SetNormalTexture(itemData.itemTexture or [[Interface\Icons\INV_Misc_QuestionMark]]);
+		kills = BH.GetKillsLatest(itemId);
+
+		BH.ProgressBar:SetValue(100)
+		BH.ProgressBar:SetStatusBarColor(1, 0.4, 0.4)
+		BH.Label:SetText("Found after "..kills.." loots!");
+
+	else
+		BH.ProgressBar:SetValue(totalChance)
+		BH.ProgressBar:SetStatusBarColor(0, 1, 0)
+		BH.Label:SetText(""..kills.." loots - "..BH.FormatPercent(totalChance).."%");
+	end
+
+	BH.Button:SetNormalTexture(itemData.itemTexture or BH.itemData[itemId].icon or [[Interface\Icons\INV_Misc_QuestionMark]]);
 end
 
 
@@ -582,10 +660,40 @@ function BH.ShowMenu()
 	local menu_frame = CreateFrame("Frame", "menuFrame", UIParent, "UIDropDownMenuTemplate")
 
 	local menuList = {};
+	local first = true;
 
-	for _, itemId in pairs(BH.trackDrops) do
+	for _, dropData in pairs(BH.dropConfig) do	
 
-		table.insert(menuList, { text = BH.GetItemColoredName(itemId), func = function() BH.SetItem(itemId) end; });
+		if (dropData.id) then
+
+			local icon = "|T"..dropData.icon..":0|t ";
+
+			table.insert(menuList, {
+				text = "    "..BH.GetItemColoredName(dropData.id),
+				func = function() BH.SetItem(dropData.id) end,
+				--fontObject = "GameFontNormalLarge",
+				isTitle = false,
+				checked = _G.BunnyHunterDB.opts.curItem == dropData.id,
+			});
+		else
+
+			if (not first) then
+				table.insert(menuList, {
+					text = "",
+					disabled = true,
+				});
+
+			end
+
+			table.insert(menuList, {
+				text = dropData.name,
+				isTitle = true,
+				--fontObject = "GameFontHighlightLarge",
+			});
+
+		end
+
+		first = false;
 	end
 
 	EasyMenu(menuList, menu_frame, BH.Button, 0 , 0, "MENU")
@@ -607,11 +715,14 @@ function BH.ShowTooltip()
 	local totalKills = BH.GetTotalKills(itemId);
 	local totalKillsSince = BH.GetTotalKillsSince(itemId);
 
-	local dropChance = BH.dropChances[itemId];
+	local dropChance = BH.itemData[itemId].rate;
 	local invChance = 1 / dropChance
 	local totalChance = 100 * (1 - math.pow(1 - dropChance, totalKillsSince));
 
 	GameTooltip:SetText(BH.GetItemColoredName(itemId))
+	if (not itemData.itemName) then
+		GameTooltip:AddLine("(Never Seen)", 1, 0.4, 0.4)
+	end
 
 	GameTooltip:AddLine(" ")
 	GameTooltip:AddDoubleLine("Loots since last drop:", totalKillsSince, 1,1,1,1,1,1)
@@ -620,8 +731,8 @@ function BH.ShowTooltip()
 	GameTooltip:AddLine(" ")
 	GameTooltip:AddDoubleLine("Total loots:", totalKills, 1,1,1,1,1,1)
 
-	if (BH.trackKills[itemId]) then
-		for _, name in pairs(BH.trackKills[itemId]) do
+	if (BH.itemData[itemId].mobs) then
+		for _, name in pairs(BH.itemData[itemId].mobs) do
 
 			GameTooltip:AddDoubleLine(name..":", (_G.BunnyHunterDB.kills[name] or 0), 1,1,1,1,1,1);
 		end
