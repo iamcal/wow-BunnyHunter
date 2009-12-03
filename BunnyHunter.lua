@@ -565,10 +565,10 @@ function BH.FormatPercent(p)
 	return x;
 end
 
-function BH.FormatTime(t)
+function BH.FormatTime(t, zero)
 
 	if (t == 0) then
-		return "?";
+		return zero;
 	end
 
 	local h = math.floor(t / (60 * 60));
@@ -800,7 +800,7 @@ end
 
 function BH.SetItem(itemId)
 
-	if (not _G.BunnyHunterDB.opts.curItem == itemId) then
+	if (not (_G.BunnyHunterDB.opts.curItem == itemId)) then
 
 		BH.EndSession();
 
@@ -837,9 +837,9 @@ function BH.ShowTooltip()
 	GameTooltip:AddDoubleLine("Loots since last drop:", totalKillsSince, 1,1,1,1,1,1)
 
 	if (BH.inSession) then
-		GameTooltip:AddDoubleLine("Farm time:", BH.FormatTime(totalTimeSince), 1,1,1,1,0.4,0.4)
+		GameTooltip:AddDoubleLine("Farm time:", BH.FormatTime(totalTimeSince, "0s"), 1,1,1,1,0.4,0.4)
 	else
-		GameTooltip:AddDoubleLine("Farm time:", BH.FormatTime(totalTimeSince), 1,1,1,1,1,1)
+		GameTooltip:AddDoubleLine("Farm time:", BH.FormatTime(totalTimeSince, "0s"), 1,1,1,1,1,1)
 	end
 
 	GameTooltip:AddDoubleLine("Drop chance:", " 1 in "..invChance, 1,1,1,1,1,1)
@@ -874,7 +874,7 @@ function BH.ShowTooltip()
 				GameTooltip:AddLine(" ")
 			end
 
-			GameTooltip:AddDoubleLine("Drop "..drop, lootsThis.." loots / "..BH.FormatTime(timeThis).." / "..BH.FormatPercent(thisChance).."%", 1,1,1,1,1,1);
+			GameTooltip:AddDoubleLine("Drop "..drop, lootsThis.." loots / "..BH.FormatTime(timeThis, "?").." / "..BH.FormatPercent(thisChance).."%", 1,1,1,1,1,1);
 
 			drop = drop + 1;
 		end
