@@ -167,6 +167,16 @@ BH.dropConfig = {
 	},
 
 	{
+		id	= "11474",
+		name	= "Sprite Darter Egg",
+		icon	= [[Interface\Icons\inv_egg_02]],
+		rate	= 1/200,
+		mobs	= {
+			"Sprite Darter",
+		},
+	},
+
+	{
 		id	= "5465",
 		name	= "Small Spider Leg",
 		icon	= [[Interface\Icons\INV_Misc_monsterspidercarapace_01]],
