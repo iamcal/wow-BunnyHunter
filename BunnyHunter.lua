@@ -690,17 +690,31 @@ function BH.StartFrame()
 	end
 end
 
+function BH.Show()
+	_G.BunnyHunterDB.opts.hide = false;
+	BH.UIFrame:Show();
+	print("Bunny Hunter: Visible");
+end
+
+function BH.Hide()
+	_G.BunnyHunterDB.opts.hide = true;
+	BH.UIFrame:Hide();
+	print("Bunny Hunter: Hidden");
+end
+
+function BH.ResetPos()
+	BH.Show();
+	BH.UIFrame:SetWidth(150);
+	BH.UIFrame:ClearAllPoints();
+	BH.UIFrame:SetPoint("CENTER", 0, 0);
+end
+
 function BH.Toggle()
 
 	if (_G.BunnyHunterDB.opts.hide) then
-
-		_G.BunnyHunterDB.opts.hide = false;
-		BH.UIFrame:Show();
-		print("Bunny Hunter: Visible");
+		BH.Show();
 	else
-		_G.BunnyHunterDB.opts.hide = true;
-		BH.UIFrame:Hide();
-		print("Bunny Hunter: Hidden");
+		BH.Hide();
 	end
 end
 
@@ -955,7 +969,21 @@ SLASH_BUNNYHUNTER2 = '/bunny';
 SLASH_BUNNYHUNTER3 = '/bh';
 
 function SlashCmdList.BUNNYHUNTER(msg, editbox)
-	BH.Toggle()
+	if (msg == 'show') then
+		BH.Show();
+	elseif (msg == 'hide') then
+		BH.Hide();
+	elseif (msg == 'toggle') then
+		BH.Toggle();
+	elseif (msg == 'reset') then
+		BH.ResetPos();
+	else
+		print "Bunny Hunter commands:";
+		print "   /bh show - Show frame";
+		print "   /bh hide - Hide frame";
+		print "   /bh toggle - Toggle frame";
+		print "   /bh reset - Reset frame position and size";
+	end
 end
 
 
