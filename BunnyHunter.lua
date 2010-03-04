@@ -869,6 +869,17 @@ function BH.ShowTooltip()
 	GameTooltip:AddDoubleLine("Drop chance:", " 1 in "..invChance, 1,1,1,1,1,1)
 	GameTooltip:AddDoubleLine("Chance so far:", BH.FormatPercent(totalChance).."%", 1,1,1,1,1,1)
 
+	if (totalKillsSince > 0 and totalTimeSince > 0) then
+		local killsPerSecond = totalKillsSince / totalTimeSince;
+		local medianKills = math.ceil(math.log(0.5) / math.log(1 - dropChance));
+		local meanTime = invChance / killsPerSecond;
+		local medianTime = medianKills / killsPerSecond;
+
+		GameTooltip:AddDoubleLine("Mean time:", BH.FormatTime(meanTime, "0s"), 1,1,1,1,1,1)
+		GameTooltip:AddDoubleLine("Median time:", BH.FormatTime(medianTime, "0s"), 1,1,1,1,1,1)
+	end
+
+
 	GameTooltip:AddLine(" ")
 	GameTooltip:AddDoubleLine("Total loots:", totalKills, 1,1,1,1,1,1)
 
