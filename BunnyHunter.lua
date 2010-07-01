@@ -1,3 +1,6 @@
+local ldb = LibStub:GetLibrary("LibDataBroker-1.1")
+local ldb_feed = ldb:NewDataObject("BunnyHunter", {type = "data source", text = "...", label = "Bunny Hunter"})
+
 BH = {}
 
 -- ##################################################################
@@ -267,10 +270,31 @@ function BH.OnReady()
 	end
 
 
+	BHOptionsFrame.name = 'Bunny Hunter';
+	InterfaceOptions_AddCategory(BHOptionsFrame);
+
 	--BH.DumpStatus();
 
 	BH.StartFrame();
 end
+
+function BH.ShowOptions()
+
+	InterfaceOptionsFrame_OpenToCategory(BHOptionsFrame.name);
+end
+
+function BH.OptionClick(button, name)
+
+	if (name == 'hide') then
+		if (_G.BunnyHunterDB.opts.hide) then
+			BH.Show();
+		else
+			BH.Hide();
+		end
+	end
+
+end
+
 
 function BH.OnSaving()
 
@@ -693,13 +717,15 @@ end
 function BH.Show()
 	_G.BunnyHunterDB.opts.hide = false;
 	BH.UIFrame:Show();
-	print("Bunny Hunter: Visible");
+	BHOptionsFrameCheck1:SetChecked(true);
+	--print("Bunny Hunter: Visible");
 end
 
 function BH.Hide()
 	_G.BunnyHunterDB.opts.hide = true;
 	BH.UIFrame:Hide();
-	print("Bunny Hunter: Hidden");
+	BHOptionsFrameCheck1:SetChecked(false);
+	--print("Bunny Hunter: Hidden");
 end
 
 function BH.ResetPos()
@@ -765,13 +791,20 @@ function BH.UpdateFrame()
 		BH.ProgressBar:SetStatusBarColor(1, 0.4, 0.4)
 		BH.Label:SetText("Found after "..kills.." loots!");
 
+		ldb_feed.text = "Found after "..kills.." loots!";
 	else
 		BH.ProgressBar:SetValue(totalChance)
 		BH.ProgressBar:SetStatusBarColor(0, 1, 0)
 		BH.Label:SetText(""..kills.." loots - "..BH.FormatPercent(totalChance).."%");
+
+		ldb_feed.text = ""..kills.." loots - "..BH.FormatPercent(totalChance).."%"
 	end
 
-	BH.Button:SetNormalTexture(itemData.itemTexture or BH.itemData[itemId].icon or [[Interface\Icons\INV_Misc_QuestionMark]]);
+
+	-- update icon
+	local texture = itemData.itemTexture or BH.itemData[itemId].icon or [[Interface\Icons\INV_Misc_QuestionMark]];
+	BH.Button:SetNormalTexture(texture);
+	ldb_feed.icon = texture;
 end
 
 
@@ -838,6 +871,15 @@ function BH.ShowTooltip()
 
 	GameTooltip:SetOwner(BH.ProgressBar, "ANCHOR_BOTTOM");
 
+	BH.FillTooltip(GameTooltip);
+
+	GameTooltip:ClearAllPoints()
+	GameTooltip:SetPoint("TOPLEFT", BH.ProgressBar, "BOTTOMLEFT"); 
+
+	GameTooltip:Show()
+end
+
+function BH.FillTooltip(GameTooltip)
 
 	local itemId = _G.BunnyHunterDB.opts.curItem;
 	local itemData = BH.ItemData(itemId);
@@ -917,10 +959,6 @@ function BH.ShowTooltip()
 
 	--GameTooltip:AddLine(itemData.itemTexture);
 
-	GameTooltip:ClearAllPoints()
-	GameTooltip:SetPoint("TOPLEFT", BH.ProgressBar, "BOTTOMLEFT"); 
-
-	GameTooltip:Show()
 end
 
 
@@ -973,6 +1011,32 @@ function BH.OnUpdate()
 		BH.EndSession();
 	end
 end
+
+
+-- ##################################################################
+
+function ldb_feed:OnTooltipShow()
+	BH.FillTooltip(self)
+	self:AddLine(" ");
+	self:AddLine("|cff7fff7fClick|r to toggle the Bunny Hunter window.")
+	self:AddLine("|cff7fff7fShift-click|r to show the options window.")
+	self:AddLine("|cff7fff7fRight-click|r to track a different pet.")
+	self:AddLine();
+end
+
+function ldb_feed:OnClick(aButton)
+	if (aButton == "LeftButton") then
+		if (IsShiftKeyDown()) then
+			BH.ShowOptions();
+		else
+			BH.Toggle();
+		end
+	else
+		BH.ShowMenu();
+	end
+end
+
+-- ##################################################################
 
 
 SLASH_BUNNYHUNTER1 = '/bunnyhunter';
