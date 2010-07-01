@@ -1,0 +1,5 @@
+1.0
+ * first release
+
+1.5
+ * added support for LDB so we can appear in TitanPanel/FuBar
