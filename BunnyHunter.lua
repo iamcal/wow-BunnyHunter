@@ -191,7 +191,7 @@ BH.dropConfig = {
 			"30", -- Forest Spider
 			"525", -- Mangy Wolf
 		},
-		hidden	= false,
+		hidden	= true,
 	}
 
 };
@@ -289,7 +289,12 @@ function BH.OnReady()
 	for itemId, loots in pairs(_G.BunnyHunterDB.loots) do
 		for uid, lootData in pairs(loots) do
 
-			if (not (type(lootData) == "table")) then
+			if (type(lootData) == "table") then
+
+				_G.BunnyHunterDB.loots[itemId][uid].loots = _G.BunnyHunterDB.loots[itemId][uid].loots or 1;
+				_G.BunnyHunterDB.loots[itemId][uid].time  = _G.BunnyHunterDB.loots[itemId][uid].time or 0;
+
+			else
 
 				local newLoot = {
 					loots = lootData,
@@ -351,11 +356,11 @@ end
 
 function BH.DoWeCare(unit_id)
 
-	print("testing UID "..unit_id);
+	--print("testing UID "..unit_id);
 
 	if (BH.unitIdList[unit_id]) then
 
-		print("match");
+		--print("match");
 
 		_G.BunnyHunterDB.kills_by_id[unit_id] = (_G.BunnyHunterDB.kills_by_id[unit_id] or 0) + 1;
 
@@ -378,7 +383,7 @@ function BH.DoWeCare(unit_id)
 		return true;
 	end
 
-	print("no match");
+	--print("no match");
 
 	return false;
 end
@@ -395,7 +400,7 @@ function BH.FoundLoot(itemId)
 
 	table.insert(_G.BunnyHunterDB.loots[itemId], {
 		loots = BH.GetTotalKills(itemId),
-		time = _G.BunnyHunterDB.times[itemId],
+		time = _G.BunnyHunterDB.times[itemId] or 0,
 	});
 
 	BH.UpdateFrame();
@@ -454,8 +459,10 @@ function BH.GetTotalTimeSince(itemId)
 	-- find the last time we found the thing we're looking for...
 	if (_G.BunnyHunterDB.loots[itemId]) then
 		for _, lootData in pairs(_G.BunnyHunterDB.loots[itemId]) do
-			if (lootData.time > latestTime) then
-				latestTime = lootData.time
+			if (lootData.time) then
+				if (lootData.time > latestTime) then
+					latestTime = lootData.time
+				end
 			end
 		end
 	end
@@ -1001,6 +1008,7 @@ function BH.FillTooltip(GameTooltip)
 	local drop = 1;
 
 	if (_G.BunnyHunterDB.loots[itemId]) then
+
 		for _, lootData in pairs(_G.BunnyHunterDB.loots[itemId]) do
 
 			local timeThis = lootData.time - lastTime;
