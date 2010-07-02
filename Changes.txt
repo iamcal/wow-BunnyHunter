@@ -1,8 +1,26 @@
 1.0
  * first release
 
+1.1
+ * Bug fix release
+ * Better UI
+ * Show icons and names for items that have never been seen
+
+1.2
+ * Added time tracking
+
+1.3
+ * Added Sprite Darter Egg
+ * Updated to work with 3.3
+
+1.4
+ * Added slash command to reset size/position
+
 1.5
  * added support for LDB so we can appear in TitanPanel/FuBar
  * added an options screen
  * added support for localization
  * changed mob & item tracking to be entirely ID based (for intl clients)
+
+1.6
+ * ?
