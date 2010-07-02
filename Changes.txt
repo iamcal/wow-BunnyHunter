@@ -4,3 +4,5 @@
 1.5
  * added support for LDB so we can appear in TitanPanel/FuBar
  * added an options screen
+ * added support for localization
+ * changed mob & item tracking to be entirely ID based (for intl clients)

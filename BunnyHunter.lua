@@ -1,5 +1,23 @@
+-- select locale file
+local loc = GetLocale();
+if (BHLocales[loc]) then
+	L = BHLocales["enUS"];
+	for k, v in pairs(L) do
+		if (BHLocales[loc][k]) then
+			L[k] = BHLocales[loc][k];
+		else
+			L[k] = "(enUS)"..L[k];
+		end
+	end
+else
+	L = BHLocales['enUS'];
+end
+
+-- LDB plugin
 local ldb = LibStub:GetLibrary("LibDataBroker-1.1")
-local ldb_feed = ldb:NewDataObject("BunnyHunter", {type = "data source", text = "...", label = "Bunny Hunter"})
+local ldb_feed = ldb:NewDataObject("BunnyHunter", {type = "data source", text = "...", label = L.NAME});
+
+
 
 BH = {}
 
@@ -12,190 +30,175 @@ BH = {}
 BH.dropConfig = {
 
 	{
-		name	= "Parrots",
+		name	= L.CATEGORY_PARROTS,
 	},
 
 	{
-		id	= "8494",
-		name	= "Hyacinth Macaw",
+		id	= "8494", -- Hyacinth Macaw
 		rate	= 1/10000,
 		icon	= [[Interface\Icons\spell_nature_forceofnature]],
 		mobs	= {
-			'"Pretty Boy" Duncan',
-			"Bloodsail Raider",
-			"Bloodsail Mage",
-			"Bloodsail Deckhand",
-			"Bloodsail Warlock",
-			"Bloodsail Swashbuckler",
-			"Bloodsail Swabby",
-			"Bloodsail Sea Dog",
-			"Bloodsail Elder Magus",			
+			"2545", -- "Pretty Boy" Duncan
+			"1561", -- Bloodsail Raider
+			"1562", -- Bloodsail Mage
+			"4505", -- Bloodsail Deckhand
+			"1564", -- Bloodsail Warlock
+			"1563", -- Bloodsail Swashbuckler
+			"4506", -- Bloodsail Swabby
+			"1565", -- Bloodsail Sea Dog
+			"1653", -- Bloodsail Elder Magus
 		}
 	},
 
 	{
-		id	= "8492",
-		name	= "Green Wing Macaw",
+		id	= "8492", -- Green Wing Macaw
 		rate	= 1/1000,
 		icon	= [[Interface\Icons\spell_nature_forceofnature]],
 		mobs	= {
-			"Defias Pirate",
+			"657", -- Defias Pirate
 		},
 	},
 
 
 	{
-		name	= "Hatchlings",
+		name	= L.CATEGORY_HATCHLINGS,
 	},
 
 	{
-		id	= "48114",
-		name	= "Deviate Hatchling",
+		id	= "48114", -- Deviate Hatchling
 		rate	= 1/100,
 		icon	= [[Interface\Icons\ability_hunter_pet_raptor]],
 		mobs	= {
-			"Deviate Guardian",
-			"Deviate Ravager",
+			"3637", -- Deviate Guardian
+			"3636", -- Deviate Ravager
 		},
 	},
 
 	{
-		id	= "48116",
-		name	= "Gundrak Hatchling",
+		id	= "48116", -- Gundrak Hatchling
 		rate	= 1/1000,
 		icon	= [[Interface\Icons\ability_mount_raptor]],
 		mobs	= {
-			"Gundrak Raptor",
+			"29334", -- Gundrak Raptor
 		},
 	},
 
 	{
-		id	= "48126",
-		name	= "Razzashi Hatchling",
+		id	= "48126", -- Razzashi Hatchling
 		rate	= 1/1000,
 		icon	= [[Interface\Icons\ability_hunter_pet_raptor]],
 		mobs	= {
-			"Razzashi Raptor",
+			"14821", -- Razzashi Raptor
 		},
 	},
 
 
 
 	{
-		name	= "Whelplings",
+		name	= L.CATEGORY_WHELPLINGS,
 	},
 
 	{
-		id	= "34535",
-		name	= "Azure Whelpling",
+		id	= "34535", -- Azure Whelpling
 		rate	= 1/1000,
 		icon	= [[Interface\Icons\inv_misc_head_dragon_blue]],
 		mobs	= {
-			"Draconic Magelord",
-			"Blue Scalebane",
-			"Draconic Mageweaver",
-			"Blue Dragonspawn",
+			"6131", -- Draconic Magelord
+			"6130", -- Blue Scalebane
+			"193", -- Blue Dragonspawn
 		},
 	},
 
 	{
-		id	= "8499",
-		name	= "Tiny Crimson Whelpling",
+		id	= "8499", -- Tiny Crimson Whelpling
 		rate	= 1/1000,
 		icon	= [[Interface\Icons\inv_misc_head_dragon_01]],
 		mobs	= {
-			"Red Whelp",
-			"Flamesnorting Whelp",
-			"Crimson Whelp",
+			"1042", -- Red Whelp
+			"1044", -- Flamesnorting Whelp
+			"1069", -- Crimson Whelp
 		},
 	},
 
 	{
-		id	= "10822",
-		name	= "Dark Whelpling",
+		id	= "10822", -- Dark Whelpling
 		rate	= 1/1000,
 		icon	= [[Interface\Icons\inv_misc_head_dragon_black]],
 		mobs	= {
-			"Searing Whelp",
-			"Scalding Whelp",
+			"4324", -- Searing Whelp
+			"2725", -- Scalding Whelp
 		},
 	},
 
 	{
-		id	= "8498",
-		name	= "Tiny Emerald Whelpling",
+		id	= "8498", -- Tiny Emerald Whelpling
 		rate	= 1/1000,
 		icon	= [[Interface\Icons\inv_misc_head_dragon_green]],
 		mobs	= {
-			"Dreaming Whelp",
-			"Adolescent Whelp",
+			"741", -- Dreaming Whelp
+			"740", -- Adolescent Whelp
 		},
 	},
 
 
 	{
-		name	= "Misc",
+		name	= L.CATEGORY_MISC,
 	},
 
 	{
-		id	= "29960",
-		name	= "Captured Firefly",
+		id	= "29960", -- Captured Firefly
 		rate	= 1/1000,
 		icon	= [[Interface\Icons\inv_box_birdcage_01]],
 		mobs	= {
-			"Bogflare Needler",
+			"20197", -- Bogflare Needler
 		},
 	},
 
 	{
-		id	= "8491",
-		name	= "Black Tabby Cat",
+		id	= "8491", -- Black Tabby Cat
 		rate	= 1/1000,
 		icon	= [[Interface\Icons\inv_box_petcarrier_01]],
 		mobs	= {
-			"Dalaran Summoner",
-			"Dalaran Theurgist",
-			"Dalaran Shield Guard",
+			"2358", -- Dalaran Summoner
+			"2272", -- Dalaran Theurgist
+			"2271", -- Dalaran Shield Guard
 		},
 	},
 
 	{
-		id	= "35504",
-		name	= "Phoenix Hatchling",
+		id	= "35504", -- Phoenix Hatchling
 		icon	= [[Interface\Icons\INV_Misc_PheonixPet_01]],
 		rate	= 1/10,
 		mobs	= {
-			"Kael'thas Sunstrider",
+			"24664", -- Kael'thas Sunstrider
 		},
 	},
 
 	{
-		id	= "11474",
-		name	= "Sprite Darter Egg",
+		id	= "11474", -- Sprite Darter Egg
 		icon	= [[Interface\Icons\inv_egg_02]],
 		rate	= 1/200,
 		mobs	= {
-			"Sprite Darter",
+			"5278", -- Sprite Darter
 		},
 	},
 
 	{
-		id	= "5465",
-		name	= "Small Spider Leg",
+		id	= "5465", -- Small Spider Leg
 		icon	= [[Interface\Icons\INV_Misc_monsterspidercarapace_01]],
 		rate	= 1/10,
 		mobs	= {
-			"Forest Spider",
-			"Mangy Wolf",
+			"30", -- Forest Spider
+			"525", -- Mangy Wolf
 		},
-		hidden	= true,
+		hidden	= false,
 	}
 
 };
 
 
 -- Disgusting Oozeling (20769) (SPECIAL!)
--- Sprite Darter Hatchling (horde only)
+
 
 --
 -- END OF THE MOBS
@@ -211,6 +214,7 @@ function BH.OnLoad()
 
 	BH.seenGuids = {};	-- a list of GUIDs already looted
 	BH.nameList = {};	-- name -> itemId map
+	BH.unitIdList = {};	-- unit id -> itemId map
 	BH.itemData = {};	-- itemId -> dropData map
 
 	BH.inSession = false;
@@ -225,11 +229,16 @@ function BH.OnLoad()
 
 		if (dropData.id and not dropData.hidden) then
 
+			dropData.name = L["ITEM_"..dropData.id];
+			if (not dropData.name) then
+				dropData.name = "UNKNOWN ITEM "..dropData.id;
+			end
+
 			BH.itemData[dropData.id] = dropData;
 
-			for _, name in pairs(dropData.mobs) do
+			for _, unit_id in pairs(dropData.mobs) do
 
-				BH.nameList[name] = dropData.id;
+				BH.unitIdList[unit_id] = dropData.id;
 			end
 		end
 	end
@@ -237,24 +246,36 @@ end
 
 function BH.OnReady()
 
-	-- select locale file
-	local loc = GetLocale();
-	if (BHLocales[loc]) then
-		L = BHLocales[loc];
-	else
-		L = BHLocales['enUS'];
-	end
-	BHLocales = nil;
-	print("NAME: " .. L["NAME"]);
-
-
+	--print("NAME: " .. L["NAME"]);
 	--print("BH.OnReady()");
 
 	_G.BunnyHunterDB = _G.BunnyHunterDB or {};
-	_G.BunnyHunterDB.kills = _G.BunnyHunterDB.kills or {};
+	_G.BunnyHunterDB.kills_by_id = _G.BunnyHunterDB.kills_by_id or {};
 	_G.BunnyHunterDB.loots = _G.BunnyHunterDB.loots or {};
 	_G.BunnyHunterDB.opts = _G.BunnyHunterDB.opts or {};
 	_G.BunnyHunterDB.times = _G.BunnyHunterDB.times or {};
+
+	-- if they have an old kills database, convert it
+	if (_G.BunnyHunterDB.kills) then
+		for name, kills in pairs(_G.BunnyHunterDB.kills) do
+
+			local matched_uid = 0;
+
+			for unit_id, _ in pairs(BH.unitIdList) do
+				if (name == BHLocales['enUS']['MOB_'..unit_id]) then
+					matched_uid = unit_id;
+				end
+			end
+
+			if (matched_uid) then
+				_G.BunnyHunterDB.kills_by_id[matched_uid] = (_G.BunnyHunterDB.kills_by_id[matched_uid] or 0) + kills;
+			end
+		end
+
+		_G.BunnyHunterDB.kills = nil;
+	end
+
+	BHLocales = nil;
 
 	_G.BunnyHunterDB.opts.curItem = _G.BunnyHunterDB.opts.curItem or "8494";
 
@@ -328,13 +349,17 @@ function BH.SeenGuid(guid)
 	BH.seenGuids[guid] = 1;
 end
 
-function BH.DoWeCare(test_name)
+function BH.DoWeCare(unit_id)
 
-	if (BH.nameList[test_name]) then
+	print("testing UID "..unit_id);
 
-		_G.BunnyHunterDB.kills[test_name] = (_G.BunnyHunterDB.kills[test_name] or 0) + 1;
+	if (BH.unitIdList[unit_id]) then
 
-		local itemId = BH.nameList[test_name]
+		print("match");
+
+		_G.BunnyHunterDB.kills_by_id[unit_id] = (_G.BunnyHunterDB.kills_by_id[unit_id] or 0) + 1;
+
+		local itemId = BH.unitIdList[unit_id]
 
 		if (_G.BunnyHunterDB.opts.curItem == itemId) then
 
@@ -353,6 +378,8 @@ function BH.DoWeCare(test_name)
 		return true;
 	end
 
+	print("no match");
+
 	return false;
 end
 
@@ -360,7 +387,7 @@ function BH.FoundLoot(itemId)
 
 	local itemData = BH.ItemData(itemId);
 
-	print("Yay! You found a "..itemData.itemLink.."!");
+	print(string.format(L.FOUND, itemData.itemLink));
 
 	if (not _G.BunnyHunterDB.loots[itemId]) then
 		_G.BunnyHunterDB.loots[itemId] = {};
@@ -378,9 +405,9 @@ function BH.GetTotalKills(itemId)
 
 	local totalKills = 0;
 	if (BH.itemData[itemId].mobs) then
-		for _, name in pairs(BH.itemData[itemId].mobs) do
+		for _, unit_id in pairs(BH.itemData[itemId].mobs) do
 
-			totalKills = totalKills + (_G.BunnyHunterDB.kills[name] or 0);
+			totalKills = totalKills + (_G.BunnyHunterDB.kills_by_id[unit_id] or 0);
 		end
 	end
 
@@ -395,8 +422,10 @@ function BH.GetTotalKillsSince(itemId)
 	-- find the last time we found the thing we're looking for...
 	if (_G.BunnyHunterDB.loots[itemId]) then
 		for _, lootData in pairs(_G.BunnyHunterDB.loots[itemId]) do
-			if (lootData.loots > latestKill) then
-				latestKill = lootData.loots
+			if (lootData.loots) then
+				if (lootData.loots > latestKill) then
+					latestKill = lootData.loots
+				end
 			end
 		end
 	end
@@ -563,7 +592,7 @@ function BH.OnLoot()
 			return;
 		end
 
-		if (not BH.DoWeCare(name)) then
+		if (not BH.DoWeCare(BH.ExtractUnitId(guid))) then
 			--print("We don't care about kills of this unit type");
 			return;
 		end
@@ -593,6 +622,23 @@ function BH.OnLoot()
 		end
 
 		BH.UpdateFrame();
+end
+
+function BH.ExtractUnitId(guid)
+
+	if (guid) then
+
+		local type = tonumber(guid:sub(5,5), 16) % 8;
+
+		if (type == 3) then
+			local uid = "" .. tonumber(guid:sub(9,12), 16);
+			local spawn = guid:sub(13,18);
+
+			return uid;
+		end
+	end
+
+	return 0;
 end
 
 function BH.FormatPercent(p)
@@ -800,15 +846,17 @@ function BH.UpdateFrame()
 
 		BH.ProgressBar:SetValue(100)
 		BH.ProgressBar:SetStatusBarColor(1, 0.4, 0.4)
-		BH.Label:SetText("Found after "..kills.." loots!");
 
-		ldb_feed.text = "Found after "..kills.." loots!";
+		local text = string.format(L.FOUND_AFTER, kills);
+		BH.Label:SetText(text);
+		ldb_feed.text = text;
 	else
 		BH.ProgressBar:SetValue(totalChance)
 		BH.ProgressBar:SetStatusBarColor(0, 1, 0)
-		BH.Label:SetText(""..kills.." loots - "..BH.FormatPercent(totalChance).."%");
 
-		ldb_feed.text = ""..kills.." loots - "..BH.FormatPercent(totalChance).."%"
+		local text = string.format(L.LOOTS, kills, BH.FormatPercent(totalChance));
+		BH.Label:SetText(text);
+		ldb_feed.text = text;
 	end
 
 
@@ -907,20 +955,20 @@ function BH.FillTooltip(GameTooltip)
 
 	GameTooltip:SetText(BH.GetItemColoredName(itemId))
 	if (not itemData.itemName) then
-		GameTooltip:AddLine("(Never Seen)", 1, 0.4, 0.4)
+		GameTooltip:AddLine(L.NEVER_SEEN, 1, 0.4, 0.4)
 	end
 
 	GameTooltip:AddLine(" ")
-	GameTooltip:AddDoubleLine("Loots since last drop:", totalKillsSince, 1,1,1,1,1,1)
+	GameTooltip:AddDoubleLine(L.LOOTS_SINCE, totalKillsSince, 1,1,1,1,1,1)
 
 	if (BH.inSession) then
-		GameTooltip:AddDoubleLine("Farm time:", BH.FormatTime(totalTimeSince, "0s"), 1,1,1,1,0.4,0.4)
+		GameTooltip:AddDoubleLine(L.FARM_TIME, BH.FormatTime(totalTimeSince, "0s"), 1,1,1,1,0.4,0.4)
 	else
-		GameTooltip:AddDoubleLine("Farm time:", BH.FormatTime(totalTimeSince, "0s"), 1,1,1,1,1,1)
+		GameTooltip:AddDoubleLine(L.FARM_TIME, BH.FormatTime(totalTimeSince, "0s"), 1,1,1,1,1,1)
 	end
 
-	GameTooltip:AddDoubleLine("Drop chance:", " 1 in "..invChance, 1,1,1,1,1,1)
-	GameTooltip:AddDoubleLine("Chance so far:", BH.FormatPercent(totalChance).."%", 1,1,1,1,1,1)
+	GameTooltip:AddDoubleLine(L.DROP_CHANCE, " "..string.format(L.DROP_CHANCE2, invChance), 1,1,1,1,1,1)
+	GameTooltip:AddDoubleLine(L.CUMM_CHANCE, BH.FormatPercent(totalChance).."%", 1,1,1,1,1,1)
 
 	if (totalKillsSince > 0 and totalTimeSince > 0) then
 		local killsPerSecond = totalKillsSince / totalTimeSince;
@@ -928,18 +976,23 @@ function BH.FillTooltip(GameTooltip)
 		local meanTime = invChance / killsPerSecond;
 		local medianTime = medianKills / killsPerSecond;
 
-		GameTooltip:AddDoubleLine("Mean time:", BH.FormatTime(meanTime, "0s"), 1,1,1,1,1,1)
-		GameTooltip:AddDoubleLine("Median time:", BH.FormatTime(medianTime, "0s"), 1,1,1,1,1,1)
+		GameTooltip:AddDoubleLine(L.MEAN_TIME, BH.FormatTime(meanTime, "0s"), 1,1,1,1,1,1)
+		GameTooltip:AddDoubleLine(L.MEDIAN_TIME, BH.FormatTime(medianTime, "0s"), 1,1,1,1,1,1)
 	end
 
 
 	GameTooltip:AddLine(" ")
-	GameTooltip:AddDoubleLine("Total loots:", totalKills, 1,1,1,1,1,1)
+	GameTooltip:AddDoubleLine(L.TOTAL_LOOTS, totalKills, 1,1,1,1,1,1)
 
 	if (BH.itemData[itemId].mobs) then
-		for _, name in pairs(BH.itemData[itemId].mobs) do
+		for _, unit_id in pairs(BH.itemData[itemId].mobs) do
 
-			GameTooltip:AddDoubleLine(name..":", (_G.BunnyHunterDB.kills[name] or 0), 1,1,1,1,1,1);
+			local name = L["MOB_"..unit_id];
+			if (not name) then
+				name = "UNKNOWN MOB "..unit_id;
+			end
+
+			GameTooltip:AddDoubleLine(name..":", (_G.BunnyHunterDB.kills_by_id[unit_id] or 0), 1,1,1,1,1,1);
 		end
 	end
 
@@ -962,7 +1015,7 @@ function BH.FillTooltip(GameTooltip)
 				GameTooltip:AddLine(" ")
 			end
 
-			GameTooltip:AddDoubleLine("Drop "..drop, lootsThis.." loots / "..BH.FormatTime(timeThis, "?").." / "..BH.FormatPercent(thisChance).."%", 1,1,1,1,1,1);
+			GameTooltip:AddDoubleLine(string.format(L.DROP_NUM, drop), string.format(L.LOOT_NUM, lootsThis).." / "..BH.FormatTime(timeThis, "?").." / "..BH.FormatPercent(thisChance).."%", 1,1,1,1,1,1);
 
 			drop = drop + 1;
 		end
@@ -1029,9 +1082,9 @@ end
 function ldb_feed:OnTooltipShow()
 	BH.FillTooltip(self)
 	self:AddLine(" ");
-	self:AddLine("|cff7fff7fClick|r to toggle the Bunny Hunter window.")
-	self:AddLine("|cff7fff7fShift-click|r to show the options window.")
-	self:AddLine("|cff7fff7fRight-click|r to track a different pet.")
+	self:AddLine(L.TIP_CLICK)
+	self:AddLine(L.TIP_SCLICK)
+	self:AddLine(L.TIP_RCLICK)
 	self:AddLine();
 end
 
@@ -1064,11 +1117,11 @@ function SlashCmdList.BUNNYHUNTER(msg, editbox)
 	elseif (msg == 'reset') then
 		BH.ResetPos();
 	else
-		print "Bunny Hunter commands:";
-		print "   /bh show - Show frame";
-		print "   /bh hide - Hide frame";
-		print "   /bh toggle - Toggle frame";
-		print "   /bh reset - Reset frame position and size";
+		--print L.CMD_HELP;
+		--print "   /bh show - "..L.CMD_HELP_SHOW;
+		--print "   /bh hide - "..L.CMD_HELP_HIDE;
+		--print "   /bh toggle - "..L.CMD_HELP_TOGGLE;
+		--print "   /bh reset - "..L.CMD_HELP_RESET;
 	end
 end
 

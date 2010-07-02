@@ -6,7 +6,7 @@
 		<Layers>
 			<Layer level="ARTWORK">
 
-				<FontString font="GameFontNormalLarge" text="Bunny Hunter Options">
+				<FontString font="GameFontNormalLarge" text="Bunny Hunter Options" name="BHOptionsFrameTitle">
 					<Anchors>
 						<Anchor point="TOPLEFT" x="16" y="-16" />
 					</Anchors>
@@ -24,16 +24,15 @@
 				</Anchors>
 				<Scripts>
 					<OnLoad>
-						_G[self:GetName().."Text"]:SetText("Show window");
+						_G[self:GetName().."Text"]:SetText(L.OPT_SHOW_WINDOW);
 						self:SetHitRectInsets(0, -300, 0, 0);
+						_G["BHOptionsFrameTitle"]:SetText(L.OPT_TITLE);
 					</OnLoad>
 					<OnClick>
 						BH.OptionClick(self, 'hide');
 					</OnClick>
 				</Scripts>
 			</CheckButton>
-
-
 		</Frames>
 		<Scripts>
 		</Scripts>
