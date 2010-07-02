@@ -237,6 +237,17 @@ end
 
 function BH.OnReady()
 
+	-- select locale file
+	local loc = GetLocale();
+	if (BHLocales[loc]) then
+		L = BHLocales[loc];
+	else
+		L = BHLocales['enUS'];
+	end
+	BHLocales = nil;
+	print("NAME: " .. L["NAME"]);
+
+
 	--print("BH.OnReady()");
 
 	_G.BunnyHunterDB = _G.BunnyHunterDB or {};
