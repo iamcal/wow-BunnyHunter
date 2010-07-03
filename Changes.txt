@@ -23,4 +23,6 @@
  * changed mob & item tracking to be entirely ID based (for intl clients)
 
 1.6
+ * show slash command help text again
+ * added german translation (thanks to SniperSam)
  * ?

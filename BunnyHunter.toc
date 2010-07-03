@@ -12,6 +12,7 @@ Libs\LibDataBroker-1.1\LibDataBroker-1.1.lua
 
 Locales\BunnyHunter-enUS.lua
 Locales\BunnyHunter-esMX.lua
+Locales\BunnyHunter-deDE.lua
 
 BunnyHunter.lua
 BunnyHunter_Options.xml

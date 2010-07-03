@@ -1084,6 +1084,24 @@ function BH.OnUpdate()
 	end
 end
 
+function BH.SlashCommand(msg, editbox)
+	if (msg == 'show') then
+		BH.Show();
+	elseif (msg == 'hide') then
+		BH.Hide();
+	elseif (msg == 'toggle') then
+		BH.Toggle();
+	elseif (msg == 'reset') then
+		BH.ResetPos();
+	else
+		print(L.CMD_HELP);
+		print("   /bh show - "..L.CMD_HELP_SHOW);
+		print("   /bh hide - "..L.CMD_HELP_HIDE);
+		print("   /bh toggle - "..L.CMD_HELP_TOGGLE);
+		print("   /bh reset - "..L.CMD_HELP_RESET);
+	end
+end
+
 
 -- ##################################################################
 
@@ -1115,23 +1133,7 @@ SLASH_BUNNYHUNTER1 = '/bunnyhunter';
 SLASH_BUNNYHUNTER2 = '/bunny';
 SLASH_BUNNYHUNTER3 = '/bh';
 
-function SlashCmdList.BUNNYHUNTER(msg, editbox)
-	if (msg == 'show') then
-		BH.Show();
-	elseif (msg == 'hide') then
-		BH.Hide();
-	elseif (msg == 'toggle') then
-		BH.Toggle();
-	elseif (msg == 'reset') then
-		BH.ResetPos();
-	else
-		--print L.CMD_HELP;
-		--print "   /bh show - "..L.CMD_HELP_SHOW;
-		--print "   /bh hide - "..L.CMD_HELP_HIDE;
-		--print "   /bh toggle - "..L.CMD_HELP_TOGGLE;
-		--print "   /bh reset - "..L.CMD_HELP_RESET;
-	end
-end
+SlashCmdList["BUNNYHUNTER"] = BH.SlashCommand;
 
 
 BH.Frame = CreateFrame("Frame")
