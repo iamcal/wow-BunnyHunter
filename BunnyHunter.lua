@@ -183,6 +183,127 @@ BH.dropConfig = {
 		},
 	},
 
+
+	{
+		name	= L.CATEGORY_MOUNTS,
+	},
+
+	{
+		id	= "32458", -- Al'ar
+		rate	= 2/100,
+		icon	= [[Interface\Icons\inv_misc_summerfest_brazierorange]],
+		mobs	= {
+			"19622", -- Kael'thas Sunstrider
+		},
+	},
+
+	{
+		id	= "49636", -- Onyxian Drake
+		rate	= 2/1000,
+		icon	= [[Interface\Icons\achievement_boss_onyxia]],
+		mobs	= {
+			"10184", -- Onyxia
+		},
+		mode	= "25N",
+	},
+
+	{
+		id	= "30480", -- Fiery Warhorse
+		rate	= 1/100,
+		icon	= [[Interface\Icons\ability_mount_dreadsteed]],
+		mobs	= {
+			"15550", -- Attumen
+		},
+	},
+
+	{
+		id	= "13335", -- Rivendare's Deathcharger
+		rate	= 1/100,
+		icon	= [[Interface\Icons\ability_mount_undeadhorse]],
+		mobs	= {
+			"10440", -- Baron Rivendare
+		},
+	},
+
+	{
+		id	= "44151", -- Blue Proto-Drake
+		rate	= 13/1000,
+		icon	= [[Interface\Icons\ability_mount_drake_proto]],
+		mobs	= {
+			"26693", -- Skadi the Ruthless
+		},
+		mode	= "5H",
+	},
+
+	{
+		id	= "35513", -- Swift White Hawkstrider
+		rate	= 3/100,
+		icon	= [[Interface\Icons\ability_mount_cockatricemountelite_white]],
+		mobs	= {
+			"24664", -- Kael'thas Sunstrider
+		},
+		mode	= "5H",
+	},
+
+	{
+		id	= "19872", -- Swift Razzashi Raptor
+		rate	= 1/100,
+		icon	= [[Interface\Icons\ability_mount_raptor]],
+		mobs	= {
+			"11382", -- Bloodlord Mandokir
+		},
+	},
+
+	{
+		id	= "19902", -- Swift Zulian Tiger
+		rate	= 1/100,
+		icon	= [[Interface\Icons\ability_mount_jungletiger]],
+		mobs	= {
+			"14509", -- High Priest Thekal
+		},
+	},
+
+	{
+		id	= "32768", -- Raven Lord
+		rate	= 15/100,
+		icon	= [[Interface\Icons\inv-mount_raven_54]],
+		mobs	= {
+			"23035", -- Anzu
+		},
+		mode	= "5H",
+	},
+
+	{
+		id	= "37012", -- Headless Horseman's Mount
+		rate	= 3/1000,
+		icon	= [[Interface\Icons\inv_belt_12]],
+		mobs	= {
+			"23682", -- Headless Horseman
+		},
+	},
+
+	{
+		id	= "21321", -- Red Qiraji Battle Tank
+		rate	= 15/1000,
+		icon	= [[Interface\Icons\inv_misc_qirajicrystal_02]],
+		mobs	= {
+			"15250", -- Qiraji Slayer
+			"15246", -- Qiraji Mindslayer
+			"15249", -- Qiraji Lasher
+			"15252", -- Qiraji Champion
+			"15247", -- Qiraji Brainwasher
+			"15312", -- Obsidian Nullifier
+			"15262", -- Obsidian Eradicator
+			"15311", -- Anubisath Warder
+			"15264", -- Anubisath Sentinel
+			"15277", -- Anubisath Defender
+ 		},
+	},
+
+
+	-- ###################################################################
+	-- START OF TEST ITEMS
+
 	{
 		id	= "5465", -- Small Spider Leg
 		icon	= [[Interface\Icons\INV_Misc_monsterspidercarapace_01]],
@@ -192,7 +313,21 @@ BH.dropConfig = {
 			"525", -- Mangy Wolf
 		},
 		hidden	= true,
-	}
+	},
+
+	{
+		id	= "8952", -- Roasted Quail
+		rate	= 1/100,
+		icon	= [[Interface\Icons\inv_misc_food_15]],
+		mobs	= {
+			"17370", -- Laughing Skull Enforcer
+		},
+		mode	= "5H",
+		hidden	= true,
+	},
+
+	-- END OF TEST ITEMS
+	-- ###################################################################
 
 };
 
@@ -360,11 +495,18 @@ function BH.DoWeCare(unit_id)
 
 	if (BH.unitIdList[unit_id]) then
 
+		local itemId = BH.unitIdList[unit_id];
+		local dropInfo = BH.itemData[itemId];
+
+		if (dropInfo.mode) then
+			if (not (dropInfo.mode == BH.GetMode())) then
+				return false;
+			end
+		end
+
 		--print("match");
 
 		_G.BunnyHunterDB.kills_by_id[unit_id] = (_G.BunnyHunterDB.kills_by_id[unit_id] or 0) + 1;
-
-		local itemId = BH.unitIdList[unit_id]
 
 		if (_G.BunnyHunterDB.opts.curItem == itemId) then
 
@@ -945,6 +1087,8 @@ function BH.ShowTooltip()
 	GameTooltip:Show()
 end
 
+function round(num) return math.floor(num+.5) end
+
 function BH.FillTooltip(GameTooltip)
 
 	local itemId = _G.BunnyHunterDB.opts.curItem;
@@ -974,7 +1118,7 @@ function BH.FillTooltip(GameTooltip)
 		GameTooltip:AddDoubleLine(L.FARM_TIME, BH.FormatTime(totalTimeSince, "0s"), 1,1,1,1,1,1)
 	end
 
-	GameTooltip:AddDoubleLine(L.DROP_CHANCE, " "..string.format(L.DROP_CHANCE2, invChance), 1,1,1,1,1,1)
+	GameTooltip:AddDoubleLine(L.DROP_CHANCE, " "..string.format(L.DROP_CHANCE2, round(invChance)), 1,1,1,1,1,1)
 	GameTooltip:AddDoubleLine(L.CUMM_CHANCE, BH.FormatPercent(totalChance).."%", 1,1,1,1,1,1)
 
 	if (totalKillsSince > 0 and totalTimeSince > 0) then
@@ -997,6 +1141,9 @@ function BH.FillTooltip(GameTooltip)
 			local name = L["MOB_"..unit_id];
 			if (not name) then
 				name = "UNKNOWN MOB "..unit_id;
+			end
+			if (BH.itemData[itemId].mode) then
+				name = name .. " (" .. L['MODE_'..BH.itemData[itemId].mode] .. ")";
 			end
 
 			GameTooltip:AddDoubleLine(name..":", (_G.BunnyHunterDB.kills_by_id[unit_id] or 0), 1,1,1,1,1,1);
@@ -1100,6 +1247,25 @@ function BH.SlashCommand(msg, editbox)
 		print("   /bh toggle - "..L.CMD_HELP_TOGGLE);
 		print("   /bh reset - "..L.CMD_HELP_RESET);
 	end
+end
+
+function BH.GetMode()
+
+	local diff = GetInstanceDifficulty();
+	local isIn, type = IsInInstance();
+
+	if (not isIn) then
+		return "-";
+	end
+
+	if (type == 'party' and diff == 1) then return "5N"; end
+	if (type == 'party' and diff == 2) then return "5H"; end
+	if (type == 'raid' and diff == 1) then return "10N"; end
+	if (type == 'raid' and diff == 2) then return "25N"; end
+	if (type == 'raid' and diff == 3) then return "10H"; end
+	if (type == 'raid' and diff == 4) then return "25H"; end
+
+	return "-";
 end
 
 
