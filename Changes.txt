@@ -25,4 +25,5 @@
 1.6
  * show slash command help text again
  * added german translation (thanks to SniperSam)
- * ?
+ * added farmable mounts
+ * fixed issue with draconic mageweaver/magelord

@@ -103,7 +103,8 @@ BH.dropConfig = {
 		rate	= 1/1000,
 		icon	= [[Interface\Icons\inv_misc_head_dragon_blue]],
 		mobs	= {
-			"6131", -- Draconic Magelord
+			"6129", -- Draconic Magelord
+			"6131", -- Draconic Mageweaver
 			"6130", -- Blue Scalebane
 			"193", -- Blue Dragonspawn
 		},
