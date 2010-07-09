@@ -1038,6 +1038,7 @@ function BH.ShowMenu()
 					--fontObject = "GameFontNormalLarge",
 					isTitle = false,
 					checked = _G.BunnyHunterDB.opts.curItem == dropData.id,
+					disabled = false,
 				});
 			end
 		else
@@ -1054,6 +1055,7 @@ function BH.ShowMenu()
 				text = dropData.name,
 				isTitle = true,
 				--fontObject = "GameFontHighlightLarge",
+				disabled = false,
 			});
 
 		end
