@@ -25,5 +25,6 @@
 1.6
  * show slash command help text again
  * added german translation (thanks to SniperSam)
- * added farmable mounts
+ * added farmable mounts (thanks to mihrimah)
  * fixed issue with draconic mageweaver/magelord
+ * fixed bug with menu items appearing disabled
