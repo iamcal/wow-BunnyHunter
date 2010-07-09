@@ -28,3 +28,6 @@
  * added farmable mounts (thanks to mihrimah)
  * fixed issue with draconic mageweaver/magelord
  * fixed bug with menu items appearing disabled
+
+1.7
+ * ?

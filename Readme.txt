@@ -68,3 +68,5 @@ Timing starts when you loot the first mob and ends after 5 minutes of not lootin
 * I loot my last Bloodsail Mage and start running back to Booty Bay
 * 5 minutes later, the timer stops.
 * Only the time between the first warlock and the last mage is added to my counter
+
+This addon works by tracking when you *lot* mobs. If you're in a party/raid and you don't personally open the loot window for the mob, it will not get tracked.
