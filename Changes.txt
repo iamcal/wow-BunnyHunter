@@ -30,4 +30,5 @@
  * fixed bug with menu items appearing disabled
 
 1.7
- * ?
+ * hide mean, median and farm times for bosses (thanks to ShayBee)
+ * 

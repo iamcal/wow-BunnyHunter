@@ -196,6 +196,7 @@ BH.dropConfig = {
 		mobs	= {
 			"19622", -- Kael'thas Sunstrider
 		},
+		notime	= 1,
 	},
 
 	{
@@ -206,6 +207,7 @@ BH.dropConfig = {
 			"10184", -- Onyxia
 		},
 		mode	= "25N",
+		notime	= 1,
 	},
 
 	{
@@ -215,6 +217,7 @@ BH.dropConfig = {
 		mobs	= {
 			"15550", -- Attumen
 		},
+		notime	= 1,
 	},
 
 	{
@@ -224,6 +227,7 @@ BH.dropConfig = {
 		mobs	= {
 			"10440", -- Baron Rivendare
 		},
+		notime	= 1,
 	},
 
 	{
@@ -234,6 +238,7 @@ BH.dropConfig = {
 			"26693", -- Skadi the Ruthless
 		},
 		mode	= "5H",
+		notime	= 1,
 	},
 
 	{
@@ -244,6 +249,7 @@ BH.dropConfig = {
 			"24664", -- Kael'thas Sunstrider
 		},
 		mode	= "5H",
+		notime	= 1,
 	},
 
 	{
@@ -253,6 +259,7 @@ BH.dropConfig = {
 		mobs	= {
 			"11382", -- Bloodlord Mandokir
 		},
+		notime	= 1,
 	},
 
 	{
@@ -262,6 +269,7 @@ BH.dropConfig = {
 		mobs	= {
 			"14509", -- High Priest Thekal
 		},
+		notime	= 1,
 	},
 
 	{
@@ -272,6 +280,7 @@ BH.dropConfig = {
 			"23035", -- Anzu
 		},
 		mode	= "5H",
+		notime	= 1,
 	},
 
 	{
@@ -281,6 +290,7 @@ BH.dropConfig = {
 		mobs	= {
 			"23682", -- Headless Horseman
 		},
+		notime	= 1,
 	},
 
 	{
@@ -1115,23 +1125,29 @@ function BH.FillTooltip(GameTooltip)
 	GameTooltip:AddLine(" ")
 	GameTooltip:AddDoubleLine(L.LOOTS_SINCE, totalKillsSince, 1,1,1,1,1,1)
 
-	if (BH.inSession) then
-		GameTooltip:AddDoubleLine(L.FARM_TIME, BH.FormatTime(totalTimeSince, "0s"), 1,1,1,1,0.4,0.4)
-	else
-		GameTooltip:AddDoubleLine(L.FARM_TIME, BH.FormatTime(totalTimeSince, "0s"), 1,1,1,1,1,1)
+	if (not BH.itemData[itemId].notime) then
+
+		if (BH.inSession) then
+			GameTooltip:AddDoubleLine(L.FARM_TIME, BH.FormatTime(totalTimeSince, "0s"), 1,1,1,1,0.4,0.4)
+		else
+			GameTooltip:AddDoubleLine(L.FARM_TIME, BH.FormatTime(totalTimeSince, "0s"), 1,1,1,1,1,1)
+		end
 	end
 
 	GameTooltip:AddDoubleLine(L.DROP_CHANCE, " "..string.format(L.DROP_CHANCE2, round(invChance)), 1,1,1,1,1,1)
 	GameTooltip:AddDoubleLine(L.CUMM_CHANCE, BH.FormatPercent(totalChance).."%", 1,1,1,1,1,1)
 
-	if (totalKillsSince > 0 and totalTimeSince > 0) then
-		local killsPerSecond = totalKillsSince / totalTimeSince;
-		local medianKills = math.ceil(math.log(0.5) / math.log(1 - dropChance));
-		local meanTime = invChance / killsPerSecond;
-		local medianTime = medianKills / killsPerSecond;
+	if (not BH.itemData[itemId].notime) then
 
-		GameTooltip:AddDoubleLine(L.MEAN_TIME, BH.FormatTime(meanTime, "0s"), 1,1,1,1,1,1)
-		GameTooltip:AddDoubleLine(L.MEDIAN_TIME, BH.FormatTime(medianTime, "0s"), 1,1,1,1,1,1)
+		if (totalKillsSince > 0 and totalTimeSince > 0) then
+			local killsPerSecond = totalKillsSince / totalTimeSince;
+			local medianKills = math.ceil(math.log(0.5) / math.log(1 - dropChance));
+			local meanTime = invChance / killsPerSecond;
+			local medianTime = medianKills / killsPerSecond;
+
+			GameTooltip:AddDoubleLine(L.MEAN_TIME, BH.FormatTime(meanTime, "0s"), 1,1,1,1,1,1)
+			GameTooltip:AddDoubleLine(L.MEDIAN_TIME, BH.FormatTime(medianTime, "0s"), 1,1,1,1,1,1)
+		end
 	end
 
 
@@ -1173,7 +1189,12 @@ function BH.FillTooltip(GameTooltip)
 				GameTooltip:AddLine(" ")
 			end
 
-			GameTooltip:AddDoubleLine(string.format(L.DROP_NUM, drop), string.format(L.LOOT_NUM, lootsThis).." / "..BH.FormatTime(timeThis, "?").." / "..BH.FormatPercent(thisChance).."%", 1,1,1,1,1,1);
+			if (BH.itemData[itemId].notime) then
+
+				GameTooltip:AddDoubleLine(string.format(L.DROP_NUM, drop), string.format(L.LOOT_NUM, lootsThis).." / "..BH.FormatPercent(thisChance).."%", 1,1,1,1,1,1);
+			else
+				GameTooltip:AddDoubleLine(string.format(L.DROP_NUM, drop), string.format(L.LOOT_NUM, lootsThis).." / "..BH.FormatTime(timeThis, "?").." / "..BH.FormatPercent(thisChance).."%", 1,1,1,1,1,1);
+			end
 
 			drop = drop + 1;
 		end
