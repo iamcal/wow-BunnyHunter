@@ -31,4 +31,4 @@
 
 1.7
  * hide mean, median and farm times for bosses (thanks to ShayBee)
- * 
+ * show median loots in tooltip (thanks to ShayBee)

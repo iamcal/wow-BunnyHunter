@@ -1137,6 +1137,10 @@ function BH.FillTooltip(GameTooltip)
 	GameTooltip:AddDoubleLine(L.DROP_CHANCE, " "..string.format(L.DROP_CHANCE2, round(invChance)), 1,1,1,1,1,1)
 	GameTooltip:AddDoubleLine(L.CUMM_CHANCE, BH.FormatPercent(totalChance).."%", 1,1,1,1,1,1)
 
+	local medianLoots = math.log(1 - 0.5) / math.log(1 - dropChance);
+
+	GameTooltip:AddDoubleLine(L.MEDIAN_LOOTS, round(medianLoots), 1,1,1,1,1,1);
+
 	if (not BH.itemData[itemId].notime) then
 
 		if (totalKillsSince > 0 and totalTimeSince > 0) then

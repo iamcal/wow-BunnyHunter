@@ -13,6 +13,7 @@ BHLocales["deDE"] = {
 	DROP_CHANCE = "Drop Chance:",
 	DROP_CHANCE2 = "1 in %s",
 	CUMM_CHANCE = "Chance bis jetzt:",
+	MEDIAN_LOOTS = "Durchschnittliche Loots:",
 	MEAN_TIME = "Gesammt Zeit:",
 	MEDIAN_TIME = "Durchschnittliche Zeit:",
 	TOTAL_LOOTS = "Loots gesammt:",

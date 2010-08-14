@@ -14,6 +14,7 @@ BHLocales["enUS"] = {
 	DROP_CHANCE = "Drop chance:",
 	DROP_CHANCE2 = "1 in %s",
 	CUMM_CHANCE = "Chance so far:",
+	MEDIAN_LOOTS = "Median loots:",
 	MEAN_TIME = "Mean time:",
 	MEDIAN_TIME = "Median time:",
 	TOTAL_LOOTS = "Total loots:",
