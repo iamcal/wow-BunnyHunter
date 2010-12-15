@@ -184,6 +184,15 @@ BH.dropConfig = {
 		},
 	},
 
+	{
+		id	= "64403", -- Fox Kit
+		icon	= [[Interface\Icons\inv_misc_foxkit]],
+		rate	= 1/200,
+		mobs	= {
+			"47676", -- Baradin Fox
+		},
+	},
+
 
 	{
 		name	= L.CATEGORY_MOUNTS,
