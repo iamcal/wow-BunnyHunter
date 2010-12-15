@@ -791,7 +791,7 @@ function BH.ExtractUnitId(guid)
 		local type = tonumber(guid:sub(5,5), 16) % 8;
 
 		if (type == 3) then
-			local uid = "" .. tonumber(guid:sub(9,12), 16);
+			local uid = "" .. tonumber(guid:sub(7,10), 16);
 			local spawn = guid:sub(13,18);
 
 			return uid;
