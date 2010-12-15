@@ -20,6 +20,7 @@ Supported pets:
 * Black Tabby Cat
 * Phoenix Hatchling
 * Sprite Darter Egg
+* Fox Kit
 
 Supported mounts:
  * Al'ar
@@ -28,8 +29,8 @@ Supported mounts:
  * Rivendare's Deathcharger
  * Blue Proto-Drake
  * Swift White Hawkstrider
- * Swift Razzashi Raptor
- * Swift Zulian Tiger
+ * Swift Razzashi Raptor (Removed)
+ * Swift Zulian Tiger (Removed)
  * Raven Lord
  * Headless Horseman's Mount
  * Red Qiraji Battle Tank
@@ -48,6 +49,7 @@ Not tracked for other reasons:
  * Azure Drake (Can be found in EoE 10 & 25, from a chest)
  * Yellow/Green/Blue Qiraji Battle Tank (Not really rare)
  * Green Proto-Drake (Comes from an egg)
+ * Disgusting Oozeling (2-tier looting - will implement one day)
 
 Instructions:
 * To see some help tips, type /bh or /bunnyhunter
@@ -69,4 +71,9 @@ Timing starts when you loot the first mob and ends after 5 minutes of not lootin
 * 5 minutes later, the timer stops.
 * Only the time between the first warlock and the last mage is added to my counter
 
-This addon works by tracking when you *lot* mobs. If you're in a party/raid and you don't personally open the loot window for the mob, it will not get tracked.
+This addon works by tracking when you *loot* mobs. If you're in a party/raid and you don't personally open the loot window for the mob, it will not get tracked.
+
+
+If you started farming for pets or mounts before you installed this addon, you can modfiy your current kill count by editing this file:
+{WoW}/WTF/Account/{account}/{realm}/{charatcer}/SavedVariables/BunnyHunter.lua
+Make sure you quit WoW before editing it. Make a backup incase you break something. You will want to edit the ["kills_by_id"] section - the numbers on the left are mob IDs and the numbers on the right are counts.
