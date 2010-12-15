@@ -263,7 +263,7 @@ BH.dropConfig = {
 
 	{
 		id	= "32768", -- Raven Lord
-		rate	= 15/100,
+		rate	= 15/1000,
 		icon	= [[Interface\Icons\inv-mount_raven_54]],
 		mobs	= {
 			"23035", -- Anzu
