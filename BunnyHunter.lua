@@ -262,26 +262,6 @@ BH.dropConfig = {
 	},
 
 	{
-		id	= "19872", -- Swift Razzashi Raptor
-		rate	= 1/100,
-		icon	= [[Interface\Icons\ability_mount_raptor]],
-		mobs	= {
-			"11382", -- Bloodlord Mandokir
-		},
-		notime	= 1,
-	},
-
-	{
-		id	= "19902", -- Swift Zulian Tiger
-		rate	= 1/100,
-		icon	= [[Interface\Icons\ability_mount_jungletiger]],
-		mobs	= {
-			"14509", -- High Priest Thekal
-		},
-		notime	= 1,
-	},
-
-	{
 		id	= "32768", -- Raven Lord
 		rate	= 15/100,
 		icon	= [[Interface\Icons\inv-mount_raven_54]],
