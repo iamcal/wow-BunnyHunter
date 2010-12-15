@@ -68,6 +68,7 @@ BHLocales["enUS"] = {
 	ITEM_32768 = "Raven Lord",
 	ITEM_37012 = "Headless Horseman's Mount",
 	ITEM_21321 = "Red Qiraji Battle Tank",
+	ITEM_64403 = "Fox Kit",
 
 	MOB_2545 = '"Pretty Boy" Duncan',
 	MOB_1561 = "Bloodsail Raider",
@@ -122,6 +123,6 @@ BHLocales["enUS"] = {
 	MOB_15311 = "Anubisath Warder",
 	MOB_15264 = "Anubisath Sentinel",
 	MOB_15277 = "Anubisath Defender",
-
+	MOB_47676 = "Baradin Fox",
 
 };
