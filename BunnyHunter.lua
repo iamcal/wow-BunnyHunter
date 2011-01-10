@@ -237,7 +237,7 @@ BH.dropConfig = {
 		rate	= 1/100,
 		icon	= [[Interface\Icons\ability_mount_dreadsteed]],
 		mobs	= {
-			"15550", -- Attumen
+			"16152", -- Attumen
 		},
 		notime	= 1,
 	},
