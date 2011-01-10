@@ -7,20 +7,15 @@ Since version 1.6, Bunny Hunter also supports farming for rare mount drops. Just
 If you would like to better understand how this addon calculates percentages, read this detailed explanation: http://www.iamcal.com/beating-the-rng/.
 
 Supported pets:
-* Hyacinth Macaw
-* Green Wing Macaw
-* Deviate Hatchling
-* Gundrak Hatchling
-* Razzashi Hatchling
-* Azure Whelpling
-* Tiny Crimson Whelpling
-* Dark Whelpling
-* Tiny Emerald Whelpling
-* Captured Firefly
-* Black Tabby Cat
-* Phoenix Hatchling
-* Sprite Darter Egg
-* Fox Kit
+ * Green Wing Macaw
+ * Deviate Hatchling
+ * Gundrak Hatchling 
+ * Dark Whelpling
+ * Tiny Emerald Whelpling
+ * Captured Firefly
+ * Phoenix Hatchling
+ * Sprite Darter Egg
+ * Fox Kit
 
 Supported mounts:
  * Al'ar
@@ -29,8 +24,6 @@ Supported mounts:
  * Rivendare's Deathcharger
  * Blue Proto-Drake
  * Swift White Hawkstrider
- * Swift Razzashi Raptor (Removed)
- * Swift Zulian Tiger (Removed)
  * Raven Lord
  * Headless Horseman's Mount
  * Red Qiraji Battle Tank
@@ -42,6 +35,13 @@ Not tracked because they have 100% drop:
  * Black Drake Mount (Sarth 10 3D)
  * Twilight Drake Mount (Sarth 25 3D)
 
+Not tracked because they are now zone drops:
+ * Hyacinth Macaw
+ * Razzashi Hatchling
+ * Azure Whelpling
+ * Tiny Crimson Whelpling
+ * Black Tabby Cat
+
 Not tracked for other reasons:
  * Sea Turtle (Comes from fishing)
  * White Polar Bear (Comes from a quest reward)
@@ -49,7 +49,10 @@ Not tracked for other reasons:
  * Azure Drake (Can be found in EoE 10 & 25, from a chest)
  * Yellow/Green/Blue Qiraji Battle Tank (Not really rare)
  * Green Proto-Drake (Comes from an egg)
+ * Swift Razzashi Raptor (No longer obtainable)
+ * Swift Zulian Tiger (No longer obtainable)
  * Disgusting Oozeling (2-tier looting - will implement one day)
+ * Mojo (Same as oozeling)
 
 Instructions:
 * To see some help tips, type /bh or /bunnyhunter

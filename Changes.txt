@@ -36,3 +36,9 @@
  * fixed raven lord mount drop rate
  * fixes for 4.x
  * added fox kit
+
+1.8
+ * hide times for kael'thas pet drop
+ * hidden 5 pets which have become zone drops
+ * updated drop mobs for 4 pets
+

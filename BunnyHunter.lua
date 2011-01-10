@@ -47,7 +47,8 @@ BH.dropConfig = {
 			"4506", -- Bloodsail Swabby
 			"1565", -- Bloodsail Sea Dog
 			"1653", -- Bloodsail Elder Magus
-		}
+		},
+		hidden = 1,
 	},
 
 	{
@@ -56,6 +57,7 @@ BH.dropConfig = {
 		icon	= [[Interface\Icons\spell_nature_forceofnature]],
 		mobs	= {
 			"657", -- Defias Pirate
+			"48522", -- Defias Pirate
 		},
 	},
 
@@ -90,6 +92,7 @@ BH.dropConfig = {
 		mobs	= {
 			"14821", -- Razzashi Raptor
 		},
+		hidden = 1,
 	},
 
 
@@ -108,6 +111,7 @@ BH.dropConfig = {
 			"6130", -- Blue Scalebane
 			"193", -- Blue Dragonspawn
 		},
+		hidden = 1,
 	},
 
 	{
@@ -119,6 +123,7 @@ BH.dropConfig = {
 			"1044", -- Flamesnorting Whelp
 			"1069", -- Crimson Whelp
 		},
+		hidden = 1,
 	},
 
 	{
@@ -126,8 +131,13 @@ BH.dropConfig = {
 		rate	= 1/1000,
 		icon	= [[Interface\Icons\inv_misc_head_dragon_black]],
 		mobs	= {
-			"4324", -- Searing Whelp
-			"2725", -- Scalding Whelp
+			"4324",  -- Searing Whelp
+			"2725",  -- Scalding Whelp
+			"42042", -- Ebon Whelp
+			"46916", -- Nyxondra's Broodling
+			"7049",  -- Flamescale Broodling
+			"4323",  -- Searing Hatchling
+			"46914", -- Raging Whelp
 		},
 	},
 
@@ -138,6 +148,7 @@ BH.dropConfig = {
 		mobs	= {
 			"741", -- Dreaming Whelp
 			"740", -- Adolescent Whelp
+			"39384", -- Noxious Whelp
 		},
 	},
 
@@ -164,6 +175,7 @@ BH.dropConfig = {
 			"2272", -- Dalaran Theurgist
 			"2271", -- Dalaran Shield Guard
 		},
+		hidden = 1,
 	},
 
 	{
@@ -173,6 +185,7 @@ BH.dropConfig = {
 		mobs	= {
 			"24664", -- Kael'thas Sunstrider
 		},
+		notime = 1,
 	},
 
 	{
@@ -235,6 +248,7 @@ BH.dropConfig = {
 		icon	= [[Interface\Icons\ability_mount_undeadhorse]],
 		mobs	= {
 			"10440", -- Baron Rivendare
+			"45412", -- Lord Aurius Rivendare
 		},
 		notime	= 1,
 	},
@@ -298,6 +312,31 @@ BH.dropConfig = {
 			"15264", -- Anubisath Sentinel
 			"15277", -- Anubisath Defender
  		},
+	},
+
+	{
+		id	= "33993", -- Mojo
+		item2	= "33865", -- Amani Hex Stick
+		rate	= 1/2,
+		rate2	= 1/50,
+		icon	= [[Interface\Icons\spell_shaman_hex]],
+		icon2	= [[Interface\Icons\inv_wand_22]],
+		mobs	= {
+			"23580", -- Amani'shi Warbringer
+			"24059", -- Amani'shi Beast Tamer
+			"23582", -- Amani'shi Tribesman
+			"24374", -- Amani'shi Berserker
+			"24065", -- Amani'shi Handler
+			"24179", -- Amani'shi Wind Walker
+			"23774", -- Amani'shi Trainer
+			"23596", -- Amani'shi Flame Caster
+			"23597", -- Amani'shi Guardian
+			"23542", -- Amani'shi Axe Thrower
+			"24180", -- Amani'shi Protector
+			"24549", -- Amani'shi Tempest
+			"23581", -- Amani'shi Medicine Man
+ 		},
+		hidden	= true,
 	},
 
 
