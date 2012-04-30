@@ -47,4 +47,6 @@
 
 2.0
  * updated to 4.3
-
+ * track normal/heroic mode kills separately, for drops that only work in one mode
+ * allow tracking of multiple drops from the same mob correctly (kael'thas)
+ * fixed lots of dumb errors on fresh installs
