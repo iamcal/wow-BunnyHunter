@@ -44,3 +44,7 @@
 
 1.9
  * fixed ID for Attumen (thanks to MugenJuri)
+
+2.0
+ * updated to 4.3
+
