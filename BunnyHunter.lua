@@ -451,12 +451,12 @@ function BH.OnReady()
 
 	BHLocales = nil;
 
-	_G.BunnyHunterDB.opts.curItem = _G.BunnyHunterDB.opts.curItem or "8494";
+	_G.BunnyHunterDB.opts.curItem = _G.BunnyHunterDB.opts.curItem or "8492";
 
 	-- pick a choice that's enabled pls :)
 	if (not BH.itemData[_G.BunnyHunterDB.opts.curItem]) then
 
-		_G.BunnyHunterDB.opts.curItem = "8494";
+		_G.BunnyHunterDB.opts.curItem = "8492";
 	end
 
 	-- convert the stored loots data from single numbers to tables
@@ -590,7 +590,7 @@ end
 function BH.GetTotalKills(itemId)
 
 	local totalKills = 0;
-	if (BH.itemData[itemId].mobs) then
+	if (BH.itemData[itemId] and BH.itemData[itemId].mobs) then
 		for _, unit_id in pairs(BH.itemData[itemId].mobs) do
 
 			totalKills = totalKills + (_G.BunnyHunterDB.kills_by_id[unit_id] or 0);
@@ -1025,7 +1025,11 @@ function BH.UpdateFrame()
 	local kills = BH.GetTotalKillsSince(itemId);
 	local killsTotal = BH.GetTotalKills(itemId);
 
-	local dropChance = BH.itemData[itemId].rate;
+	if (not BH.itemData[itemId]) then
+		BH.itemData[itemId] = {};
+	end
+
+	local dropChance = BH.itemData[itemId].rate or 0;
 	local totalChance = 100 * (1 - math.pow(1 - dropChance, kills));
 
 	if (kills == 0 and killsTotal > 0) then
@@ -1141,7 +1145,11 @@ function BH.FillTooltip(GameTooltip)
 	local totalTime = BH.GetTotalTime(itemId);
 	local totalTimeSince = BH.GetTotalTimeSince(itemId);
 
-	local dropChance = BH.itemData[itemId].rate;
+	if (not BH.itemData[itemId]) then
+		BH.itemData[itemId] = {};
+	end
+
+	local dropChance = BH.itemData[itemId].rate or 0;
 	local invChance = 1 / dropChance
 	local totalChance = 100 * (1 - math.pow(1 - dropChance, totalKillsSince));
 
