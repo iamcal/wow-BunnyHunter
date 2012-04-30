@@ -530,43 +530,75 @@ end
 
 function BH.DoWeCare(unit_id)
 
+	-- figure out if unit_id is a unit we're watching for *any*
+	-- drops. if it is, increment the stored count. we store a count
+	-- for the base unit and then for each mode - this allows us to
+	-- track both the pheonix hatchling (normal and heroic) and the
+	-- hawkstrider (heroic only) that drop from the same mob uid.
+
 	--print("testing UID "..unit_id);
 
-	if (BH.unitIdList[unit_id]) then
-
-		local itemId = BH.unitIdList[unit_id];
-		local dropInfo = BH.itemData[itemId];
-
-		if (dropInfo.mode) then
-			if (not (dropInfo.mode == BH.GetMode())) then
-				return false;
-			end
-		end
-
-		--print("match");
-
-		_G.BunnyHunterDB.kills_by_id[unit_id] = (_G.BunnyHunterDB.kills_by_id[unit_id] or 0) + 1;
-
-		if (_G.BunnyHunterDB.opts.curItem == itemId) then
-
-			--print("Item "..itemId.." is already selected")
-
-			BH.UpdateSession();
-		else
-			--print("Item "..itemId.." is NOW selected")
-
-			BH.EndSession();
-			BH.StartSession();
-
-			_G.BunnyHunterDB.opts.curItem = itemId;
-		end
-
-		return true;
+	if (not BH.unitIdList[unit_id]) then
+		return false;
 	end
 
-	--print("no match");
+	local curMode = BH.GetMode();
+	local matched = false;
+	local dropInfo;
+	local incKeys = {};
 
-	return false;
+	for _, dropInfo in pairs(BH.dropConfig) do
+		if (dropInfo.mobs) then
+			local mobId;
+			for _, mobId in pairs(dropInfo.mobs) do
+
+				if (mobId == unit_id) then
+
+					if (dropInfo.mode) then
+						if (dropInfo.mode == curMode) then
+							matched = true;
+							incKeys[mobId.."-"..curMode] = 1;
+							BH.SwitchToItem(dropInfo.id);
+						end
+					else
+						matched = true;
+						incKeys[mobId] = 1;
+						BH.SwitchToItem(dropInfo.id);
+					end
+				end
+			end
+		end
+	end
+
+	local mobId;
+	for mobId, _ in pairs(incKeys) do
+		BH.IncUnitCount(mobId);
+	end
+
+	return matched;
+end
+
+function BH.IncUnitCount(unit_id)
+
+	-- can be a simple unit ID ("1234") or include a mode ("1234-5H")
+
+	local old = _G.BunnyHunterDB.kills_by_id[unit_id] or 0;
+	_G.BunnyHunterDB.kills_by_id[unit_id] = old + 1;
+end
+
+function BH.SwitchToItem(itemId)
+
+	if (_G.BunnyHunterDB.opts.curItem == itemId) then
+
+		--print("Item "..itemId.." is already selected")
+		BH.UpdateSession();
+	else
+		--print("Item "..itemId.." is NOW selected")
+		BH.EndSession();
+		BH.StartSession();
+
+		_G.BunnyHunterDB.opts.curItem = itemId;
+	end
 end
 
 function BH.FoundLoot(itemId)
@@ -593,7 +625,12 @@ function BH.GetTotalKills(itemId)
 	if (BH.itemData[itemId] and BH.itemData[itemId].mobs) then
 		for _, unit_id in pairs(BH.itemData[itemId].mobs) do
 
-			totalKills = totalKills + (_G.BunnyHunterDB.kills_by_id[unit_id] or 0);
+			local key = unit_id;
+			if (BH.itemData[itemId].mode) then
+				key = key .. "-" .. BH.itemData[itemId].mode;
+			end
+
+			totalKills = totalKills + (_G.BunnyHunterDB.kills_by_id[key] or 0);
 		end
 	end
 
@@ -754,6 +791,8 @@ function BH.OnLoot()
 
 		local guid = UnitGUID("target");
 		local name = UnitName("target");
+
+		--print("target guid: "..guid);
 
 		if (not name or not guid) then
 			--print("no target");
@@ -1205,7 +1244,12 @@ function BH.FillTooltip(GameTooltip)
 				name = name .. " (" .. L['MODE_'..BH.itemData[itemId].mode] .. ")";
 			end
 
-			GameTooltip:AddDoubleLine(name..":", (_G.BunnyHunterDB.kills_by_id[unit_id] or 0), 1,1,1,1,1,1);
+			local key = unit_id;
+			if (BH.itemData[itemId].mode) then
+				key = key .. "-" .. BH.itemData[itemId].mode;
+			end
+
+			GameTooltip:AddDoubleLine(name..":", (_G.BunnyHunterDB.kills_by_id[key] or 0), 1,1,1,1,1,1);
 		end
 	end
 
