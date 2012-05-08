@@ -365,6 +365,16 @@ BH.dropConfig = {
 		hidden	= true,
 	},
 
+	{
+		id	= "62328", -- Shed Fur
+		icon	= [[Interface\Icons\INV_Misc_monsterspidercarapace_01]],
+		rate	= 1/10,
+		zones	= {
+			"30", -- Elwynn Forest
+		},
+		hidden	= false,
+	},
+
 	-- END OF TEST ITEMS
 	-- ###################################################################
 
@@ -389,6 +399,7 @@ function BH.OnLoad()
 	BH.seenGuids = {};	-- a list of GUIDs already looted
 	BH.nameList = {};	-- name -> itemId map
 	BH.unitIdList = {};	-- unit id -> itemId map
+	BH.zoneIdList = {};	-- zone id -> itemId map
 	BH.itemData = {};	-- itemId -> dropData map
 
 	BH.inSession = false;
@@ -401,6 +412,9 @@ function BH.OnLoad()
 
 	for _, dropData in pairs(BH.dropConfig) do
 
+		if (not dropData.mobs) then dropData.mobs = {}; end
+		if (not dropData.zones) then dropData.zones = {}; end
+
 		if (dropData.id and not dropData.hidden) then
 
 			dropData.name = L["ITEM_"..dropData.id];
@@ -410,9 +424,16 @@ function BH.OnLoad()
 
 			BH.itemData[dropData.id] = dropData;
 
+			local unit_id;
 			for _, unit_id in pairs(dropData.mobs) do
 
 				BH.unitIdList[unit_id] = dropData.id;
+			end
+
+			local zone_id;
+			for _, zone_id in pairs(dropData.zones) do
+
+				BH.zoneIdList[zone_id] = dropData.id;
 			end
 		end
 	end
@@ -435,6 +456,7 @@ function BH.OnReady()
 
 			local matched_uid = 0;
 
+			-- old migration code
 			for unit_id, _ in pairs(BH.unitIdList) do
 				if (name == BHLocales['enUS']['MOB_'..unit_id]) then
 					matched_uid = unit_id;
@@ -536,9 +558,14 @@ function BH.DoWeCare(unit_id)
 	-- track both the pheonix hatchling (normal and heroic) and the
 	-- hawkstrider (heroic only) that drop from the same mob uid.
 
+	local zone_id = "" .. GetCurrentMapAreaID();
+
 	--print("testing UID "..unit_id);
 
-	if (not BH.unitIdList[unit_id]) then
+	if ((not BH.unitIdList[unit_id]) and (not BH.zoneIdList[zone_id])) then
+
+		print('no list matches');
+
 		return false;
 	end
 
@@ -548,24 +575,34 @@ function BH.DoWeCare(unit_id)
 	local incKeys = {};
 
 	for _, dropInfo in pairs(BH.dropConfig) do
-		if (dropInfo.mobs) then
-			local mobId;
-			for _, mobId in pairs(dropInfo.mobs) do
 
-				if (mobId == unit_id) then
+		local mobId;
+		for _, mobId in pairs(dropInfo.mobs) do
 
-					if (dropInfo.mode) then
-						if (dropInfo.mode == curMode) then
-							matched = true;
-							incKeys[mobId.."-"..curMode] = 1;
-							BH.SwitchToItem(dropInfo.id);
-						end
-					else
+			if (mobId == unit_id) then
+
+				if (dropInfo.mode) then
+					if (dropInfo.mode == curMode) then
 						matched = true;
-						incKeys[mobId] = 1;
+						incKeys[mobId.."-"..curMode] = 1;
 						BH.SwitchToItem(dropInfo.id);
 					end
+				else
+					matched = true;
+					incKeys[mobId] = 1;
+					BH.SwitchToItem(dropInfo.id);
 				end
+			end
+		end
+
+		local test_zone_id;
+		for _, test_zone_id in pairs(dropInfo.zones) do
+
+			if (test_zone_id == zone_id) then
+
+				matched = true;
+				incKeys[zone_id.."-ZONE"] = 1;
+				BH.SwitchToItem(dropInfo.id);
 			end
 		end
 	end
@@ -574,6 +611,8 @@ function BH.DoWeCare(unit_id)
 	for mobId, _ in pairs(incKeys) do
 		BH.IncUnitCount(mobId);
 	end
+
+	print('some matches');
 
 	return matched;
 end
@@ -795,32 +834,32 @@ function BH.OnLoot()
 		--print("target guid: "..guid);
 
 		if (not name or not guid) then
-			--print("no target");
+			print("no target");
 			return;
 		end
 
 		if (not UnitCanAttack("player", "target")) then
-			--print("target not hostile");
+			print("target not hostile");
 			return;
 		end
 
 		if (UnitIsPlayer("target")) then
-			--print("target is a player");
+			print("target is a player");
 			return;
 		end
 
 		if (not UnitIsDead("target")) then
-			--print("Target isn't dead. Uhh...");
+			print("Target isn't dead. Uhh...");
 			return;
 		end
 
 		if (BH.SeenGuid(guid)) then
-			--print("We've seen this guid already");
+			print("We've seen this guid already");
 			return;
 		end
 
 		if (not BH.DoWeCare(BH.ExtractUnitId(guid))) then
-			--print("We don't care about kills of this unit type");
+			print("We don't care about kills of this unit type");
 			return;
 		end
 
