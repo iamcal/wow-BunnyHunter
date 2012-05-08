@@ -660,17 +660,29 @@ end
 
 function BH.GetTotalKills(itemId)
 
+	if (not BH.itemData[itemId]) then
+		return 0;
+	end
+
 	local totalKills = 0;
-	if (BH.itemData[itemId] and BH.itemData[itemId].mobs) then
-		for _, unit_id in pairs(BH.itemData[itemId].mobs) do
 
-			local key = unit_id;
-			if (BH.itemData[itemId].mode) then
-				key = key .. "-" .. BH.itemData[itemId].mode;
-			end
+	local unit_id;
+	for _, unit_id in pairs(BH.itemData[itemId].mobs) do
 
-			totalKills = totalKills + (_G.BunnyHunterDB.kills_by_id[key] or 0);
+		local key = unit_id;
+		if (BH.itemData[itemId].mode) then
+			key = key .. "-" .. BH.itemData[itemId].mode;
 		end
+
+		totalKills = totalKills + (_G.BunnyHunterDB.kills_by_id[key] or 0);
+	end
+
+	local zone_id;
+	for _, zone_id in pairs(BH.itemData[itemId].zones) do
+
+		local key = zone_id .. "-ZONE";
+
+		totalKills = totalKills + (_G.BunnyHunterDB.kills_by_id[key] or 0);
 	end
 
 	return totalKills;
@@ -1272,24 +1284,40 @@ function BH.FillTooltip(GameTooltip)
 	GameTooltip:AddLine(" ")
 	GameTooltip:AddDoubleLine(L.TOTAL_LOOTS, totalKills, 1,1,1,1,1,1)
 
-	if (BH.itemData[itemId].mobs) then
-		for _, unit_id in pairs(BH.itemData[itemId].mobs) do
+	-- show individual mobs
+	local unit_id;
+	for _, unit_id in pairs(BH.itemData[itemId].mobs) do
 
-			local name = L["MOB_"..unit_id];
-			if (not name) then
-				name = "UNKNOWN MOB "..unit_id;
-			end
-			if (BH.itemData[itemId].mode) then
-				name = name .. " (" .. L['MODE_'..BH.itemData[itemId].mode] .. ")";
-			end
-
-			local key = unit_id;
-			if (BH.itemData[itemId].mode) then
-				key = key .. "-" .. BH.itemData[itemId].mode;
-			end
-
-			GameTooltip:AddDoubleLine(name..":", (_G.BunnyHunterDB.kills_by_id[key] or 0), 1,1,1,1,1,1);
+		local name = L["MOB_"..unit_id];
+		if (not name) then
+			name = "UNKNOWN MOB "..unit_id;
 		end
+		if (BH.itemData[itemId].mode) then
+			name = name .. " (" .. L['MODE_'..BH.itemData[itemId].mode] .. ")";
+		end
+
+		local key = unit_id;
+		if (BH.itemData[itemId].mode) then
+			key = key .. "-" .. BH.itemData[itemId].mode;
+		end
+
+		GameTooltip:AddDoubleLine(name..":", (_G.BunnyHunterDB.kills_by_id[key] or 0), 1,1,1,1,1,1);
+	end
+
+	-- show individual zones
+	local zone_id;
+	for _, zone_id in pairs(BH.itemData[itemId].zones) do
+
+		local name = L["ZONE_"..zone_id];
+		if (not name) then
+			name = "UNKNOWN ZONE "..zone_id;
+		else
+			name = name .. " " .. L["ZONE"];
+		end
+
+		local key = zone_id.."-ZONE";
+
+		GameTooltip:AddDoubleLine(name..":", (_G.BunnyHunterDB.kills_by_id[key] or 0), 1,1,1,1,1,1);
 	end
 
 	local lastLoot = 0;

@@ -7,6 +7,7 @@ BHLocales["enUS"] = {
 	LOOTS = "%s loots - %s%%",
 	FOUND = "Yay! You found a %s!",
 	FOUND_AFTER = "Found after %s loots!",
+	ZONE = "(Zone)",
 
 	NEVER_SEEN = "(Never Seen)",
 	LOOTS_SINCE = "Loots since last drop:",
@@ -147,4 +148,6 @@ BHLocales["enUS"] = {
 	MOB_24180 = "Amani'shi Protector",
 	MOB_24549 = "Amani'shi Tempest",
 	MOB_23581 = "Amani'shi Medicine Man",
+
+	ZONE_30 = "Elwynn Forest",
 };
