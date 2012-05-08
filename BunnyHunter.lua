@@ -2,6 +2,7 @@
 local loc = GetLocale();
 if (BHLocales[loc]) then
 	L = BHLocales["enUS"];
+	local k, v;
 	for k, v in pairs(L) do
 		if (BHLocales[loc][k]) then
 			L[k] = BHLocales[loc][k];
@@ -410,6 +411,7 @@ function BH.OnLoad()
 	BH.sessionLength = 60 * 5; -- 5m
 	--BH.sessionLength = 20;
 
+	local dropData;
 	for _, dropData in pairs(BH.dropConfig) do
 
 		if (not dropData.mobs) then dropData.mobs = {}; end
@@ -452,11 +454,13 @@ function BH.OnReady()
 
 	-- if they have an old kills database, convert it
 	if (_G.BunnyHunterDB.kills) then
+		local name, kills;
 		for name, kills in pairs(_G.BunnyHunterDB.kills) do
 
 			local matched_uid = 0;
 
 			-- old migration code
+			local unit_id;
 			for unit_id, _ in pairs(BH.unitIdList) do
 				if (name == BHLocales['enUS']['MOB_'..unit_id]) then
 					matched_uid = unit_id;
@@ -482,7 +486,10 @@ function BH.OnReady()
 	end
 
 	-- convert the stored loots data from single numbers to tables
+	local itemId, loots;
 	for itemId, loots in pairs(_G.BunnyHunterDB.loots) do
+
+		local uid, lootData;
 		for uid, lootData in pairs(loots) do
 
 			if (type(lootData) == "table") then
@@ -695,6 +702,8 @@ function BH.GetTotalKillsSince(itemId)
 
 	-- find the last time we found the thing we're looking for...
 	if (_G.BunnyHunterDB.loots[itemId]) then
+
+		local lootData;
 		for _, lootData in pairs(_G.BunnyHunterDB.loots[itemId]) do
 			if (lootData.loots) then
 				if (lootData.loots > latestKill) then
@@ -727,6 +736,8 @@ function BH.GetTotalTimeSince(itemId)
 
 	-- find the last time we found the thing we're looking for...
 	if (_G.BunnyHunterDB.loots[itemId]) then
+
+		local lootData;
 		for _, lootData in pairs(_G.BunnyHunterDB.loots[itemId]) do
 			if (lootData.time) then
 				if (lootData.time > latestTime) then
@@ -745,6 +756,8 @@ function BH.GetKillsLatest(itemId)
 	local lastLoot = 0;
 
 	if (_G.BunnyHunterDB.loots[itemId]) then
+
+		local lootData;
 		for _, lootData in pairs(_G.BunnyHunterDB.loots[itemId]) do
 
 			lootsThis = lootData.loots - lastLoot;
@@ -1156,6 +1169,7 @@ function BH.ShowMenu()
 	local menuList = {};
 	local first = true;
 
+	local dropData;
 	for _, dropData in pairs(BH.dropConfig) do	
 
 		if (dropData.id) then
@@ -1326,6 +1340,7 @@ function BH.FillTooltip(GameTooltip)
 
 	if (_G.BunnyHunterDB.loots[itemId]) then
 
+		local lootData;
 		for _, lootData in pairs(_G.BunnyHunterDB.loots[itemId]) do
 
 			local timeThis = lootData.time - lastTime;
