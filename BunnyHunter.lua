@@ -27,6 +27,10 @@ BH = {}
 -- START OF THE MOBS
 --
 
+--
+-- Get list of zone IDs from here: http://www.wowwiki.com/API_SetMapByID
+-- Find out current one using: /run print(GetCurrentMapAreaID())
+--
 
 BH.dropConfig = {
 
@@ -38,7 +42,7 @@ BH.dropConfig = {
 		id	= "8494", -- Hyacinth Macaw
 		rate	= 1/10000,
 		icon	= [[Interface\Icons\spell_nature_forceofnature]],
-		mobs	= {
+		xmobs	= {
 			"2545", -- "Pretty Boy" Duncan
 			"1561", -- Bloodsail Raider
 			"1562", -- Bloodsail Mage
@@ -49,7 +53,11 @@ BH.dropConfig = {
 			"1565", -- Bloodsail Sea Dog
 			"1653", -- Bloodsail Elder Magus
 		},
-		hidden = 1,
+		zones	= {
+			"37", -- Northern Stranglethorn
+			"673", -- Cape of Stranglethorn
+			"689", -- Stranglethorn Vale
+		},
 	},
 
 	{
@@ -373,7 +381,7 @@ BH.dropConfig = {
 		zones	= {
 			"30", -- Elwynn Forest
 		},
-		hidden	= false,
+		hidden	= true,
 	},
 
 	-- END OF TEST ITEMS

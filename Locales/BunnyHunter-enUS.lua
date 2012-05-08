@@ -150,4 +150,7 @@ BHLocales["enUS"] = {
 	MOB_23581 = "Amani'shi Medicine Man",
 
 	ZONE_30 = "Elwynn Forest",
+	ZONE_37 = "Northern Stranglethorn",
+	ZONE_673 = "The Cape of Stranglethorn",
+	ZONE_689 = "Stranglethorn Vale",
 };
