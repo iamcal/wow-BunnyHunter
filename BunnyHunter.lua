@@ -571,8 +571,7 @@ function BH.DoWeCare(unit_id)
 
 	if ((not BH.unitIdList[unit_id]) and (not BH.zoneIdList[zone_id])) then
 
-		print('no list matches');
-
+		--print('no list matches');
 		return false;
 	end
 
@@ -619,8 +618,7 @@ function BH.DoWeCare(unit_id)
 		BH.IncUnitCount(mobId);
 	end
 
-	print('some matches');
-
+	--print('some matches');
 	return matched;
 end
 
@@ -859,32 +857,32 @@ function BH.OnLoot()
 		--print("target guid: "..guid);
 
 		if (not name or not guid) then
-			print("no target");
+			--print("no target");
 			return;
 		end
 
 		if (not UnitCanAttack("player", "target")) then
-			print("target not hostile");
+			--print("target not hostile");
 			return;
 		end
 
 		if (UnitIsPlayer("target")) then
-			print("target is a player");
+			--print("target is a player");
 			return;
 		end
 
 		if (not UnitIsDead("target")) then
-			print("Target isn't dead. Uhh...");
+			--print("Target isn't dead. Uhh...");
 			return;
 		end
 
 		if (BH.SeenGuid(guid)) then
-			print("We've seen this guid already");
+			--print("We've seen this guid already");
 			return;
 		end
 
 		if (not BH.DoWeCare(BH.ExtractUnitId(guid))) then
-			print("We don't care about kills of this unit type");
+			--print("We don't care about kills of this unit type");
 			return;
 		end
 
