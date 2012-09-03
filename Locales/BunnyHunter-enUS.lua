@@ -159,4 +159,6 @@ BHLocales["enUS"] = {
 	ZONE_689 = "Stranglethorn Vale",
 	ZONE_281 = "Winterspring",
 	ZONE_40 = "Wetlands",
+	ZONE_24 = "Hillsbrad Footfills",
+
 };

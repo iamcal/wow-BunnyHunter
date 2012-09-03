@@ -61,4 +61,5 @@
  * added tracking for Drake of the North Wind
  * re-enabled tracking for Azure Whelpling (zone drop)
  * re-enabled tracking for Tiny Crimson Whelpling (zone drop)
-
+ * re-enabled tracking for Razzashi Hatchling (zone drop)
+ * re-enabled tracking for Black Tabby Cat (zone drop)

@@ -98,10 +98,14 @@ BH.dropConfig = {
 		id	= "48126", -- Razzashi Hatchling
 		rate	= 1/1000,
 		icon	= [[Interface\Icons\ability_hunter_pet_raptor]],
-		mobs	= {
+		xmobs	= {
 			"14821", -- Razzashi Raptor
 		},
-		hidden = 1,
+		zones	= {
+			"37", -- Northern Stranglethorn
+			"673", -- Cape of Stranglethorn
+			"689", -- Stranglethorn Vale
+		},
 	},
 
 
@@ -129,7 +133,7 @@ BH.dropConfig = {
 		id	= "8499", -- Tiny Crimson Whelpling
 		rate	= 1/1000,
 		icon	= [[Interface\Icons\inv_misc_head_dragon_01]],
-		mobs	= {
+		xmobs	= {
 			"1042", -- Red Whelp
 			"1044", -- Flamesnorting Whelp
 			"1069", -- Crimson Whelp
@@ -183,12 +187,14 @@ BH.dropConfig = {
 		id	= "8491", -- Black Tabby Cat
 		rate	= 1/1000,
 		icon	= [[Interface\Icons\inv_box_petcarrier_01]],
-		mobs	= {
+		xmobs	= {
 			"2358", -- Dalaran Summoner
 			"2272", -- Dalaran Theurgist
 			"2271", -- Dalaran Shield Guard
 		},
-		hidden = 1,
+		zones	= {
+			"24", -- Hillsbrad Footfills
+		},
 	},
 
 	{

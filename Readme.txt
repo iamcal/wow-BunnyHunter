@@ -11,11 +11,13 @@ Supported pets:
  * Green Wing Macaw
  * Deviate Hatchling
  * Gundrak Hatchling 
+ * Razzashi Hatchling
  * Azure Whelpling
  * Tiny Crimson Whelpling
  * Dark Whelpling
  * Tiny Emerald Whelpling
  * Captured Firefly
+ * Black Tabby Cat
  * Phoenix Hatchling
  * Sprite Darter Egg
  * Fox Kit
@@ -39,10 +41,6 @@ Not tracked because they have 100% drop:
  * Time-Lost Proto-Drake
  * Black Drake Mount (Sarth 10 3D)
  * Twilight Drake Mount (Sarth 25 3D)
-
-Not tracked because they are now zone drops:
- * Razzashi Hatchling
- * Black Tabby Cat
 
 Not tracked for other reasons:
  * Sea Turtle (Comes from fishing)
