@@ -11,6 +11,8 @@ Supported pets:
  * Green Wing Macaw
  * Deviate Hatchling
  * Gundrak Hatchling 
+ * Azure Whelpling
+ * Tiny Crimson Whelpling
  * Dark Whelpling
  * Tiny Emerald Whelpling
  * Captured Firefly
@@ -40,8 +42,6 @@ Not tracked because they have 100% drop:
 
 Not tracked because they are now zone drops:
  * Razzashi Hatchling
- * Azure Whelpling
- * Tiny Crimson Whelpling
  * Black Tabby Cat
 
 Not tracked for other reasons:

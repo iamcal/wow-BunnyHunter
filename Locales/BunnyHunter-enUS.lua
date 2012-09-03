@@ -157,4 +157,6 @@ BHLocales["enUS"] = {
 	ZONE_37 = "Northern Stranglethorn",
 	ZONE_673 = "The Cape of Stranglethorn",
 	ZONE_689 = "Stranglethorn Vale",
+	ZONE_281 = "Winterspring",
+	ZONE_40 = "Wetlands",
 };

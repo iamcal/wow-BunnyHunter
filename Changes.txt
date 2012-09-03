@@ -59,4 +59,6 @@
  * updated for 5.0.4
  * added tracking for Vitreous Stone Drake
  * added tracking for Drake of the North Wind
+ * re-enabled tracking for Azure Whelpling (zone drop)
+ * re-enabled tracking for Tiny Crimson Whelpling (zone drop)
 

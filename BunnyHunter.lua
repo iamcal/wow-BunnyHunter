@@ -114,13 +114,15 @@ BH.dropConfig = {
 		id	= "34535", -- Azure Whelpling
 		rate	= 1/1000,
 		icon	= [[Interface\Icons\inv_misc_head_dragon_blue]],
-		mobs	= {
+		xmobs	= {
 			"6129", -- Draconic Magelord
 			"6131", -- Draconic Mageweaver
 			"6130", -- Blue Scalebane
 			"193", -- Blue Dragonspawn
 		},
-		hidden = 1,
+		zones	= {
+			"281", -- Winterspring
+		},
 	},
 
 	{
@@ -132,7 +134,9 @@ BH.dropConfig = {
 			"1044", -- Flamesnorting Whelp
 			"1069", -- Crimson Whelp
 		},
-		hidden = 1,
+		zones	= {
+			"40", -- Wetlands
+		},
 	},
 
 	{
