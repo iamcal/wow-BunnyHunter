@@ -54,3 +54,6 @@
 2.1
  * added zone tracking for zone-wide drops
  * added the Hyacinth Macaw back in
+
+2.2
+ * updated for 5.0.4
