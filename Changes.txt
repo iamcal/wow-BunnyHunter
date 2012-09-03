@@ -58,4 +58,5 @@
 2.2
  * updated for 5.0.4
  * added tracking for Vitreous Stone Drake
+ * added tracking for Drake of the North Wind
 

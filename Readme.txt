@@ -25,6 +25,7 @@ Supported mounts:
  * Rivendare's Deathcharger
  * Blue Proto-Drake
  * Vitreous Stone Drake
+ * Drake of the North Wind
  * Swift White Hawkstrider
  * Raven Lord
  * Headless Horseman's Mount

@@ -73,6 +73,7 @@ BHLocales["enUS"] = {
 	ITEM_33993 = "Mojo",
 	ITEM_33865 = "Amani Hex Stick",
 	ITEM_63043 = "Vitreous Stone Drake",
+	ITEM_63040 = "Drake of the North Wind",
 
 	MOB_2545 = '"Pretty Boy" Duncan',
 	MOB_1561 = "Bloodsail Raider",
@@ -150,6 +151,7 @@ BHLocales["enUS"] = {
 	MOB_24549 = "Amani'shi Tempest",
 	MOB_23581 = "Amani'shi Medicine Man",
 	MOB_43214 = "Slabhide",
+	MOB_43873 = "Altairus",
 
 	ZONE_30 = "Elwynn Forest",
 	ZONE_37 = "Northern Stranglethorn",

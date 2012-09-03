@@ -284,6 +284,16 @@ BH.dropConfig = {
 	},
 
 	{
+		id = "63040", -- Drake of the North Wind
+		rate = 1/100,
+		icon = [[Interface\Icons\inv_misc_stormdragonpale]],
+		mobs = {
+			"43873", -- Altairus
+		},
+		notime = 1,
+	},
+
+	{
 		id	= "35513", -- Swift White Hawkstrider
 		rate	= 3/100,
 		icon	= [[Interface\Icons\ability_mount_cockatricemountelite_white]],
