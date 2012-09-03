@@ -274,6 +274,16 @@ BH.dropConfig = {
 	},
 
 	{
+		id	= "63043", -- Vitreous Stone Drake
+		rate	= 9/1000,
+		icon	= [[Interface\Icons\inv_misc_stonedragonblue]],
+		mobs	= {
+			"43214", -- Slabhide
+		},
+		notime	= 1,
+	},
+
+	{
 		id	= "35513", -- Swift White Hawkstrider
 		rate	= 3/100,
 		icon	= [[Interface\Icons\ability_mount_cockatricemountelite_white]],

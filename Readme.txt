@@ -7,6 +7,7 @@ Since version 1.6, Bunny Hunter also supports farming for rare mount drops. Just
 If you would like to better understand how this addon calculates percentages, read this detailed explanation: http://www.iamcal.com/beating-the-rng/.
 
 Supported pets:
+ * Hyacinth Macaw
  * Green Wing Macaw
  * Deviate Hatchling
  * Gundrak Hatchling 
@@ -23,6 +24,7 @@ Supported mounts:
  * Fiery Warhorse
  * Rivendare's Deathcharger
  * Blue Proto-Drake
+ * Vitreous Stone Drake
  * Swift White Hawkstrider
  * Raven Lord
  * Headless Horseman's Mount
@@ -36,7 +38,6 @@ Not tracked because they have 100% drop:
  * Twilight Drake Mount (Sarth 25 3D)
 
 Not tracked because they are now zone drops:
- * Hyacinth Macaw
  * Razzashi Hatchling
  * Azure Whelpling
  * Tiny Crimson Whelpling
