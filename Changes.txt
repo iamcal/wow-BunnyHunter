@@ -63,3 +63,6 @@
  * re-enabled tracking for Tiny Crimson Whelpling (zone drop)
  * re-enabled tracking for Razzashi Hatchling (zone drop)
  * re-enabled tracking for Black Tabby Cat (zone drop)
+
+2.3
+ * switched Sprite Darter Egg to a zone-wide drop

@@ -210,9 +210,12 @@ BH.dropConfig = {
 	{
 		id	= "11474", -- Sprite Darter Egg
 		icon	= [[Interface\Icons\inv_egg_02]],
-		rate	= 1/200,
-		mobs	= {
+		rate	= 1/10000,
+		xmobs	= {
 			"5278", -- Sprite Darter
+		},
+		zones	= {
+			"121", -- Feralas
 		},
 	},
 

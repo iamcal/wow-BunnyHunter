@@ -160,5 +160,5 @@ BHLocales["enUS"] = {
 	ZONE_281 = "Winterspring",
 	ZONE_40 = "Wetlands",
 	ZONE_24 = "Hillsbrad Footfills",
-
+	ZONE_121 = "Feralas",
 };
