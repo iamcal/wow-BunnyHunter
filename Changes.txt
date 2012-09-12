@@ -68,3 +68,4 @@
  * switched Sprite Darter Egg to a zone-wide drop
  * updated drop chance for Fox Kit
  * fixed to work with AOE looting, apart from pure gold drops
+ * fixes for zone-wide drops and tooltip formatting
