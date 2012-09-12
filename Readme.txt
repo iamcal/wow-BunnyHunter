@@ -4,6 +4,8 @@ Bunny Hunter tracks how many times you've looted mobs that drop rare pets, how l
 
 Since version 1.6, Bunny Hunter also supports farming for rare mount drops. Just select a mount from the drop down menu, or start killing mobs that drop them. Bear in mind that the addon works by watching you *loot* mobs, so if someone else in your party or raid loots the mob, it wont be tracked.
 
+When AOE looting was introduced in 5.0.4, Bunny Hunter changed the way it detects units being looted. At this time, there is no way to find out the mobs being looted if they only drop gold. Hopefully this will be fixed in future patches.
+
 If you would like to better understand how this addon calculates percentages, read this detailed explanation: http://www.iamcal.com/beating-the-rng/.
 
 Supported pets:
