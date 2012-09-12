@@ -898,66 +898,87 @@ end
 
 function BH.OnLoot()
 
-		local guid = UnitGUID("target");
-		local name = UnitName("target");
+	-- new logic for MoP w/ AoE looting.
+	-- we need to loop over each piece of loot, building a list of guids
+	-- that we're looting, each with a list of loot indexes that they
+	-- provided.
+
+	local i,j;
+	local numItems = GetNumLootItems();
+	local loot_map = {};
+
+	for j=1, numItems, 1 do
+		BH.ParseSourceList(j, loot_map, GetLootSourceInfo(j));
+	end
+
+	--if (true) then return; end
+
+
+	--
+	-- now loop over each guid, seeing if we care about it
+	--
+
+	local guid, loots;
+
+	for guid, loots in pairs(loot_map) do
 
 		--print("target guid: "..guid);
 
-		if (not name or not guid) then
-			--print("no target");
-			return;
-		end
-
-		if (not UnitCanAttack("player", "target")) then
-			--print("target not hostile");
-			return;
-		end
-
-		if (UnitIsPlayer("target")) then
-			--print("target is a player");
-			return;
-		end
-
-		if (not UnitIsDead("target")) then
-			--print("Target isn't dead. Uhh...");
-			return;
-		end
-
 		if (BH.SeenGuid(guid)) then
+
 			--print("We've seen this guid already");
-			return;
-		end
 
-		if (not BH.DoWeCare(BH.ExtractUnitId(guid))) then
+		elseif (not BH.DoWeCare(BH.ExtractUnitId(guid))) then
+
 			--print("We don't care about kills of this unit type");
-			return;
-		end
+		else
 
-		--print("ok! process this baby");
+			--print("ok! process this baby");
 
-		local numItems = GetNumLootItems()
+			for i, j in pairs(loots) do
 
-		for slotID = 1, numItems, 1 do
+				-- coins have a qty of 0
+				local _, _, qty = GetLootSlotInfo(i);
 
-			-- coins have a qty of 0
-			local _, _, qty = GetLootSlotInfo(slotID);
+				if (qty > 0) then
 
-			if (qty > 0) then
+					local itemLink = GetLootSlotLink(i);
+					local _, itemId = strsplit(":", itemLink);
 
-				local itemLink = GetLootSlotLink(slotID);
-				local _, itemId = strsplit(":", itemLink);
+					--print("found item id "..itemId);
 
-				--print("found item id "..itemId);
+					if (BH.itemData[itemId]) then
 
-				if (BH.itemData[itemId]) then
+						--print("we care about that!!");
 
-					--print("we care about that!!");
-					BH.FoundLoot(itemId);
+						BH.FoundLoot(itemId);
+					end
 				end
 			end
 		end
+	end
 
-		BH.UpdateFrame();
+	BH.UpdateFrame();
+end
+
+function BH.ParseSourceList(j, loot_map, ...)
+
+	-- looting gold is currently broken, since it returns nothing
+	-- for GetLootSourceInfo() we can't figure out who it came from.
+	-- sadface.
+
+	for i=1, select('#', ...), 2 do
+
+		local guid = select(i, ...);
+		local qty = select(i+1, ...);
+
+		--print("slot "..j.." (x"..qty..") comes from "..guid);
+
+		if (guid) then
+			loot_map[guid] = loot_map[guid] or {};
+			loot_map[guid][j] = qty;
+		end
+	end
 end
 
 function BH.ExtractUnitId(guid)
