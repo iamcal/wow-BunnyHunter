@@ -69,3 +69,6 @@
  * updated drop chance for Fox Kit
  * fixed to work with AOE looting, apart from pure gold drops
  * fixes for zone-wide drops and tooltip formatting
+
+2.4
+ * Upgrade to interface 50100
