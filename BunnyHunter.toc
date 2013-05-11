@@ -1,8 +1,8 @@
-## Interface: 50100
+## Interface: 50200
 ## Title : Bunny Hunter
 ## Notes: Track the kills and time required for farming rare pet drops.
 ## Author: Cal Henderson (Bees on Hyjal-US)
-## Version: 2.4
+## Version: 2.5
 ## Dependencies: 
 ## SavedVariablesPerCharacter: BunnyHunterDB
 

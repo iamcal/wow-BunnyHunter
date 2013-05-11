@@ -72,3 +72,7 @@
 
 2.4
  * Upgrade to interface 50100
+
+2.5
+ * Update for patch 5.2
+ * Reimplementation of BH.GetMode (thanks to yinzara)

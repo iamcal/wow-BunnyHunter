@@ -1511,19 +1511,14 @@ end
 
 function BH.GetMode()
 
-	local diff = GetInstanceDifficulty();
-	local isIn, type = IsInInstance();
+	local _, _, difficulty = GetInstanceInfo();
 
-	if (not isIn) then
-		return "-";
-	end
-
-	if (type == 'party' and diff == 1) then return "5N"; end
-	if (type == 'party' and diff == 2) then return "5H"; end
-	if (type == 'raid' and diff == 1) then return "10N"; end
-	if (type == 'raid' and diff == 2) then return "25N"; end
-	if (type == 'raid' and diff == 3) then return "10H"; end
-	if (type == 'raid' and diff == 4) then return "25H"; end
+	if (difficulty == 1) then return "5N"; end
+	if (difficulty == 2) then return "5H"; end
+	if (difficulty == 3) then return "10N"; end
+	if (difficulty == 4) then return "25N"; end
+	if (difficulty == 5) then return "10H"; end
+	if (difficulty == 6) then return "25H"; end
 
 	return "-";
 end
