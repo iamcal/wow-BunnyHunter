@@ -631,7 +631,7 @@ function BH.DoWeCare(unit_id)
 
 	local zone_id = "" .. GetCurrentMapAreaID();
 
-	print("testing UID "..unit_id);
+	--print("testing UID "..unit_id);
 
 	if ((not BH.unitIdList[unit_id]) and (not BH.zoneIdList[zone_id])) then
 
