@@ -23,6 +23,8 @@ Supported pets:
  * Phoenix Hatchling
  * Sprite Darter Egg
  * Fox Kit
+ * Filthling
+ * Direhorn Runt
 
 Supported mounts:
  * Al'ar

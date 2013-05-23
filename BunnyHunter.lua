@@ -228,6 +228,29 @@ BH.dropConfig = {
 		},
 	},
 
+	{
+		id	= "97961", -- Filthling
+		rate	= 1/5000,
+		icon	= [[Interface\Icons\spell_yorsahj_bloodboil_yellow]],
+		mobs	= {
+			"69251", -- Quivering Filth
+			"69282", -- Quivering Filth (H)
+		},
+	},
+
+	{
+		id	= "94573", -- Direhorn Runt
+		rate	= 1/5000,
+		icon	= [[Interface\Icons\inv_babytriceratops_grey]],
+		mobs	= {
+			"69983", -- Primal Direhorn
+			"70017", -- Primal Direhorn
+			"70013", -- Primal Direhorn Hatchling
+			"69992", -- Primal Direhorn Hatchling
+			"70012", -- Primal Direhorn Hatchling
+		},
+	},
+
 
 	{
 		name	= L.CATEGORY_MOUNTS,
@@ -608,7 +631,7 @@ function BH.DoWeCare(unit_id)
 
 	local zone_id = "" .. GetCurrentMapAreaID();
 
-	--print("testing UID "..unit_id);
+	print("testing UID "..unit_id);
 
 	if ((not BH.unitIdList[unit_id]) and (not BH.zoneIdList[zone_id])) then
 
@@ -988,7 +1011,7 @@ function BH.ExtractUnitId(guid)
 		local type = tonumber(guid:sub(5,5), 16) % 8;
 
 		if (type == 3) then
-			local uid = "" .. tonumber(guid:sub(7,10), 16);
+			local uid = "" .. tonumber(guid:sub(6,10), 16);
 			local spawn = guid:sub(13,18);
 
 			return uid;

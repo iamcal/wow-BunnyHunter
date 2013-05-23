@@ -74,6 +74,8 @@ BHLocales["enUS"] = {
 	ITEM_33865 = "Amani Hex Stick",
 	ITEM_63043 = "Vitreous Stone Drake",
 	ITEM_63040 = "Drake of the North Wind",
+	ITEM_97961 = "Filthling",
+	ITEM_94573 = "Direhorn Runt",
 
 	MOB_2545 = '"Pretty Boy" Duncan',
 	MOB_1561 = "Bloodsail Raider",
@@ -152,6 +154,13 @@ BHLocales["enUS"] = {
 	MOB_23581 = "Amani'shi Medicine Man",
 	MOB_43214 = "Slabhide",
 	MOB_43873 = "Altairus",
+	MOB_69251 = "Quivering Filth",
+	MOB_69282 = "Quivering Filth",
+	MOB_69983 = "Primal Direhorn",
+	MOB_70017 = "Primal Direhorn",
+	MOB_70013 = "Primal Direhorn Hatchling",
+	MOB_69992 = "Primal Direhorn Hatchling",
+	MOB_70012 = "Primal Direhorn Hatchling",
 
 	ZONE_30 = "Elwynn Forest",
 	ZONE_37 = "Northern Stranglethorn",

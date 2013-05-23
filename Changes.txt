@@ -76,3 +76,7 @@
 2.5
  * Update for patch 5.2
  * Reimplementation of BH.GetMode (thanks to yinzara)
+
+2.6
+ * Updated GUID parsing for 5.3
+ * Added new pets: Filthling & Direhorn Runt
