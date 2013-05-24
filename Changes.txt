@@ -80,3 +80,6 @@
 2.6
  * Updated GUID parsing for 5.3
  * Added new pets: Filthling & Direhorn Runt
+
+2.7
+ * 5.3 API bump
