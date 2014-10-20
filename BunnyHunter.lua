@@ -1008,14 +1008,9 @@ function BH.ExtractUnitId(guid)
 
 	if (guid) then
 
-		local type = tonumber(guid:sub(5,5), 16) % 8;
+		local typeStr, zero, server_id, instance_id, zone_uid, npc_id, spawn_uid = strsplit("-",guid);
 
-		if (type == 3) then
-			local uid = "" .. tonumber(guid:sub(6,10), 16);
-			local spawn = guid:sub(13,18);
-
-			return uid;
-		end
+		return npc_id;
 	end
 
 	return 0;
