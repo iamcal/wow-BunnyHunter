@@ -1,0 +1,4 @@
+the BH.ProgressBar element gets badly sized when resizing, but i don't know why
+
+it gets cleared on looting
+
