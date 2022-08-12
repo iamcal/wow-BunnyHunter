@@ -1,8 +1,9 @@
-## Interface: 60000
+<<<<<<< Updated upstream
+## Interface: 30300
 ## Title : Bunny Hunter
 ## Notes: Track the kills and time required for farming rare pet drops.
 ## Author: Cal Henderson (Bees on Hyjal-US)
-## Version: 3.0
+## Version: 1.7
 ## Dependencies: 
 ## SavedVariablesPerCharacter: BunnyHunterDB
 
@@ -15,4 +16,23 @@ Locales\BunnyHunter-esMX.lua
 Locales\BunnyHunter-deDE.lua
 
 BunnyHunter.lua
+=======
+## Interface: 11401
+## Title : Bunny Hunter - Classic
+## Notes: Track the kills and time required for farming rare pet drops.
+## Author: Renegadetrix Benediction-US
+## Version: 2.5.5
+## Dependencies: 
+## SavedVariablesPerCharacter: BunnyHunterDB
+
+Libs\LibStub\LibStub.lua
+Libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
+Libs\LibDataBroker-1.1\LibDataBroker-1.1.lua
+
+Locales\BunnyHunter-enUS.lua
+Locales\BunnyHunter-esMX.lua
+Locales\BunnyHunter-deDE.lua
+
+BunnyHunter.lua
+>>>>>>> Stashed changes
 BunnyHunter_Options.xml
